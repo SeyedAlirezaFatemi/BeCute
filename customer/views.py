@@ -10,30 +10,31 @@ from barber.models import BarberShop
 
 def main(request):
     print("customer index")
-    return render(request, 'customer/index.html', context={})
+    return render(request, 'customer/test.html', context={})
 
 
-def reserve(request):#, barber):
-    print(123)
+def reserve(request, barber):
     if request.method == 'POST':
 
-        body = json.loads(request.body)
+        day = int(request.POST.get('day', False))
+        year = int(request.POST.get('year', False))
+        hour = int(request.POST.get('hour', False))
+        month = int(request.POST.get('month', False))
+        minute = int(request.POST.get('minute', False))
 
-        day = body['day']
-        year = body['year']
-        hour = body['hour']
-        month = body['month']
-        minute = body['minute']
+        # todo check if time is available
 
         reservation = Reservation(
             start=datetime.datetime(year=year, month=month, day=day, hour=hour, minute=minute),
-            duration=datetime.timedelta(minutes=int(body['duration'])),
+            duration=datetime.timedelta(
+                minutes=int(request.POST.get('duration', False))
+            ),
             state='R',
         )
         reservation.save()
 
-        # todo return reult
-        return render(request, "customer/index.html")
+        # todo return result
+        return render(request, "customer/test.html")
 
     elif request.method == 'GET':
 
