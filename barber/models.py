@@ -27,5 +27,5 @@ class BarberService(models.Model):
 
 class Schedule(models.Model):
     shop = models.ForeignKey(BarberShop, on_delete=models.CASCADE)
-    dateTime = models.DateTimeField()
+    start = models.DateTimeField()
     duration = models.DurationField()

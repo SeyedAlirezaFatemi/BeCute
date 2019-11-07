@@ -1,10 +1,11 @@
+import datetime
+
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.core.exceptions import ObjectDoesNotExist
-import json
-import datetime
+
+from barber.models import Schedule
 from customer.models import Reservation
-from barber.models import BarberShop, Schedule
 
 
 # from django.contrib.gis.geos.point import Point
@@ -39,12 +40,18 @@ def reserve(request, shop_uid, start, end):
         # todo return result
         return redirect('index.html')
 
-    elif request.method == 'GET':
+    elif request.method == 'GET' and start is not None and end is not None:
+
+        end = list(map(int, end.split("-")))
+        start = list(map(int, start.split("-")))
+        end = datetime.datetime(year=end[0], month=end[1], day=end[2])
+        start = datetime.datetime(year=start[0], month=start[1], day=start[2])
 
         try:
             schedules = Schedule.objects.filter(shop=shop_uid, start__lt=end, start__gt=start).all()
             reserves = Reservation.objects.filter(shop=shop_uid, start__lt=end, start__gt=start).all()
 
+            print(len(schedules), "\t", schedules)
             return render(request, 'customer/reserve.html', {'reserves': reserves, 'schedules': schedules})
 
         except ObjectDoesNotExist:
