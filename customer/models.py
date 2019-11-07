@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser, User
 
 
 class Reservation(models.Model):
@@ -13,3 +14,8 @@ class Reservation(models.Model):
     start = models.DateTimeField()
     duration = models.DurationField()
     state = models.CharField(max_length=1, choices=STATES)
+
+class CustomUser(AbstractUser):
+    type = models.CharField(max_length=100, choices=(('client', 'client'), ('barber', 'barber')))
+
+
