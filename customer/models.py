@@ -1,13 +1,15 @@
 from django.db import models
 
 
-class Service(models.Model):
-    name = models.CharField(max_length=50)
-    duration = models.DurationField()
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+class Reservation(models.Model):
+    STATES = (
+        ('R', 'reserved'),
+        ('D', 'done'),
+        ('C', 'canceled'),
+    )
 
-
-class BarberShop(models.Model):
-    name = models.CharField(max_length=50)
     # barber = models.ForeignKey(USER, on_delete=models.CASCADE) TODO link to barber
-    service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    # customer = models.ForeignKey(USER, on_delete=models.CASCADE) TODO link to user
+    start = models.DateTimeField()
+    duration = models.DurationField()
+    state = models.CharField(max_length=1, choices=STATES)
