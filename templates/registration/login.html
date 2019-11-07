@@ -5,21 +5,11 @@
     <title>Log in</title>
 </head>
 <body>
-<a href="{% url 'social:begin' 'google-oauth2' %}">login with google</a>
-    <h1>Log In</h1>
-    <form action="{% url 'auth:log_in' %}" method="post">
-        {% csrf_token %}
-        <ul>
-            <li>
-                <label for="username">your username:</label>
-                <input type="text" name="username" id="username" placeholder="MrezaGh">
-            </li>
-             <li>
-                <label for="password">your password:</label>
-                <input type="password" name="password" id="password">
-            </li>
-        </ul>
-        <input type="submit" value="log in">
-    </form>
+    <h2>Login</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Login</button>
+</form>
 </body>
 </html>
