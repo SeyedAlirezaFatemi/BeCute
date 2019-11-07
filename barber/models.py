@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.gis.db import models as spatial_models
+# from django.contrib.gis.db import models as spatial_models
 
 
 class Service(models.Model):
@@ -17,7 +17,7 @@ class BarberShop(models.Model):
         through_fields=('shop', 'service'),
     )
 
-    location = spatial_models.PointField()
+    # location = spatial_models.PointField()
 
 
 class BarberService(models.Model):

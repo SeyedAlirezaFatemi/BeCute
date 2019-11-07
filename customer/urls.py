@@ -1,12 +1,12 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+
 from . import views
 
 urlpatterns = [
     path('', views.main),
-    path('reserve',views.reserve),
-    path('search',views.search),
-    path('search',views.reserve),
-    path('profile',views.profile()),
+    path('reserve/', views.reserve),
+    # path('reserve/<str:barber>/', views.reserve),
+    path('search/', views.search),
+    path('profile/', views.profile),
 
 ]
