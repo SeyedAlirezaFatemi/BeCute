@@ -1,9 +1,12 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.core.exceptions import ObjectDoesNotExist
 import json
 import datetime
 from customer.models import Reservation
-from barber.models import BarberShop
+from barber.models import BarberShop, Schedule
+
+
 # from django.contrib.gis.geos.point import Point
 # from django.contrib.gis.db.models.functions import Distance
 
@@ -13,7 +16,7 @@ def main(request):
     return render(request, 'customer/test.html', context={})
 
 
-def reserve(request, barber):
+def reserve(request, shop_uid, start, end):
     if request.method == 'POST':
 
         day = int(request.POST.get('day', False))
@@ -34,11 +37,18 @@ def reserve(request, barber):
         reservation.save()
 
         # todo return result
-        return render(request, "customer/test.html")
+        return redirect('index.html')
 
     elif request.method == 'GET':
 
-        pass
+        try:
+            schedules = Schedule.objects.filter(shop=shop_uid, start__lt=end, start__gt=start).all()
+            reserves = Reservation.objects.filter(shop=shop_uid, start__lt=end, start__gt=start).all()
+
+            return render(request, 'customer/reserve.html', {'reserves': reserves, 'schedules': schedules})
+
+        except ObjectDoesNotExist:
+            pass
 
     return HttpResponse(" this is reserve page of costumer")
 
@@ -48,11 +58,11 @@ def search(request):
     #     body = json.loads(request.body)
     #     point = Point(body["long"], body["latt"])
 
-        # search_result = BarberShop.objects.annotate(
-        #     distance=Distance('location', point)
-        # ).order_by('distance').all()
+    # search_result = BarberShop.objects.annotate(
+    #     distance=Distance('location', point)
+    # ).order_by('distance').all()
 
-        # return HttpResponse(json.dumps(search_result))
+    # return HttpResponse(json.dumps(search_result))
 
     return HttpResponse(" this is search page of costumer")
 
