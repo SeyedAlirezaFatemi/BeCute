@@ -7,19 +7,21 @@
 <body>
 {% block content %}
 
+free times at {{shop.name}} barbershop:<br>
 {% for schedule in schedules %}
-    {{schedule.shop}}
-    {{schedule.start}}
-    {{schedule.duration}}
+    at {{schedule.start}} for {{schedule.duration}}<br>
 {% endfor %}
 
+<br>
+current reservations:<br>
 {% for reserve in reserves %}
-    {{reserve.start}}
-    {{reserve.duration}}
+    at {{reserve.start}} for {{reserve.duration}}<br>
 {% endfor %}
+<br>
+<br>
 
-<form action="reserve/" method="post">
-
+<form action="/customer/reserve/{{shop.id}}/" method="post">
+reserve a time:
 {% csrf_token %}
     enter year : <input type="text" name="year"><br>
     enter month : <input type="text" name="month"><br>
@@ -27,8 +29,9 @@
     enter hour : <input type="text" name="hour"><br>
     enter minute : <input type="text" name="minute"><br>
     enter duration(minute) : <input type="text" name="duration"><br>
-    <input type="submit">
+    <input type="submit" value="reserve">
 </form>
+
 {% endblock %}
 </body>
 </html>
