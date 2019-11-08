@@ -7,7 +7,7 @@ from django.db.models import F
 
 from barber.models import Schedule, BarberShop
 from customer.models import Reservation
-
+from BeCute.misc import parse_date
 
 # from django.contrib.gis.geos.point import Point
 # from django.contrib.gis.db.models.functions import Distance
@@ -99,8 +99,3 @@ def search(request):
 
 def profile(request):
     return HttpResponse(" this is profile page of costumer")
-
-
-def parse_date(date_str):
-    date_str = list(map(int, date_str.split("-")))
-    return datetime.datetime(year=date_str[0], month=date_str[1], day=date_str[2])
