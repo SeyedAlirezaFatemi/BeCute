@@ -3,6 +3,7 @@ import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.db.models import F
 
 from barber.models import Schedule, BarberShop
 from customer.models import Reservation
@@ -25,16 +26,23 @@ def reserve(request, shop_uid, start=None, end=None):
         hour = int(request.POST.get('hour', False))
         month = int(request.POST.get('month', False))
         minute = int(request.POST.get('minute', False))
-
-        # todo check if time is available
-
-        reservation = Reservation(
-            start=datetime.datetime(year=year, month=month, day=day, hour=hour, minute=minute),
-            duration=datetime.timedelta(
-                minutes=int(request.POST.get('duration', False))
-            ),
-            state='R',
+        start = datetime.datetime(year=year, month=month, day=day, hour=hour, minute=minute)
+        duration = datetime.timedelta(
+            minutes=int(request.POST.get('duration', False))
         )
+
+        if Reservation.objects.filter(
+                shop=shop_uid,
+                start__lt=start + duration,
+                start__gte=start-F('duration')
+        ).exists() or not Schedule.objects.filter(
+            shop=shop_uid,
+            start__lte=start,
+            start__gte=start+duration-F('duration')
+        ).exists():
+            return HttpResponse("requested time is not available")
+
+        reservation = Reservation(start=start, duration=duration, state='R')
         reservation.save()
 
         # todo return result
@@ -56,8 +64,6 @@ def reserve(request, shop_uid, start=None, end=None):
 
         except ObjectDoesNotExist:
             pass
-
-    return HttpResponse(" this is reserve page of costumer")
 
 
 def cancel(request, start, end):
