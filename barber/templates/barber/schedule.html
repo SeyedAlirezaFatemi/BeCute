@@ -12,6 +12,11 @@ your schedule from {{start_time}} to {{end_time}}:<br>
     no. {{schedule.id}} at {{schedule.start}} for {{schedule.duration}}<br>
 {% endfor %}
 <br>
+reserved times from {{start_time}} to {{end_time}}:<br>
+{% for reserve in reservations %}
+no. {{reserve.id}} at {{reserve.start}} for {{reserve.duration}}<br>
+{% endfor %}
+<br>
 <br>
 <form method="post">
 add new free time:
