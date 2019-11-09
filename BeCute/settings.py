@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'customer',
-    'barber'
+    'barber',
+    'account'
 ]
 
 MIDDLEWARE = [
@@ -122,6 +123,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL = 'customer.CustomUser'  # for changing base user model for authentication
+AUTH_USER_MODEL = 'account.CustomUser'  # for changing base user model for authentication
 LOGIN_REDIRECT_URL = '/accounts/profile'  # where to redirect after successful login
 LOGOUT_REDIRECT_URL = '/'

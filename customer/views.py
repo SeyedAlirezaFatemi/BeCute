@@ -8,6 +8,7 @@ from django.db.models import F
 from barber.models import Schedule, BarberShop
 from customer.models import Reservation
 from BeCute.misc import parse_date
+from account.models import CustomUser
 
 # from django.contrib.gis.geos.point import Point
 # from django.contrib.gis.db.models.functions import Distance
@@ -19,7 +20,9 @@ def main(request):
 
 
 def reserve(request, shop_uid, start=None, end=None):
+    current_user = CustomUser.objects.filter(username=request.user.username).all()[0]
     if request.method == 'POST':
+        barber = BarberShop.objects.get(id=shop_uid)
 
         day = int(request.POST.get('day', False))
         year = int(request.POST.get('year', False))
@@ -42,7 +45,12 @@ def reserve(request, shop_uid, start=None, end=None):
         ).exists():
             return HttpResponse("requested time is not available")
 
-        reservation = Reservation(start=start, duration=duration, state='R')
+        print("=========================================================================")
+        print(current_user)
+        print(CustomUser.objects.all())
+        print("=========================================================================")
+
+        reservation = Reservation(shop=barber, customer=current_user, duration=duration, start=start, state='R')
         reservation.save()
 
         # todo return result
@@ -55,8 +63,8 @@ def reserve(request, shop_uid, start=None, end=None):
 
         try:
             shop = BarberShop.objects.get(id=shop_uid)
-            schedules = Schedule.objects.filter(shop=shop_uid, start__lt=end, start__gt=start).all()
-            reserves = Reservation.objects.filter(shop=shop_uid, start__lt=end, start__gt=start).all()
+            schedules = Schedule.objects.filter(shop=shop_uid, start__lte=end, start__gte=start).all()
+            reserves = Reservation.objects.filter(shop=shop_uid, start__lte=end, start__gte=start).all()
 
             print(len(schedules), "\t", schedules)
             return render(request, 'customer/reserve.html',
@@ -67,6 +75,7 @@ def reserve(request, shop_uid, start=None, end=None):
 
 
 def cancel(request, start, end):
+    current_user = CustomUser.objects.get(username=request.user.username)
     if request.method == "POST":
 
         try:
@@ -79,7 +88,7 @@ def cancel(request, start, end):
 
     else:
         # fixme filter for current user
-        reserves = Reservation.objects.filter(start__lt=parse_date(end), start__gt=parse_date(start)).all()
+        reserves = Reservation.objects.filter(customer=current_user, start__lt=parse_date(end), start__gt=parse_date(start)).all()
         return render(request, 'customer/cancel.html', {'reserves': reserves})
 
 
