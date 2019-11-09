@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+</head>
+<body>
+
+you are signing up
+    <form action="{% url 'signup' %}" method="post">
+        {% csrf_token %}
+        <ul>
+            <li>
+                <label for="username">your username:</label>
+                <input type="text" name="username" id="username" placeholder="MrezaGh">
+            </li>
+            <li>
+                <label for="password">your password:</label>
+                <input type="password" name="password" id="password">
+            </li>
+            <li>
+                <label for="email">your email:</label>
+                <input type="email" name="email" id="email" placeholder="Mreza@gmail.com">
+            </li>
+            <li>
+                <label for="first_name">your first name:</label>
+                <input type="text" name="first_name" id="first_name" placeholder="mamad">
+            </li>
+            <li>
+                <label for="last_name">your last name:</label>
+                <input type="text" name="last_name" id="last_name" placeholder="mamadi">
+            </li>
+            <li>
+                <label for="type">your type:</label>
+                <select id="type" name="type">
+                    <option value="customer">customer</option>
+                    <option value="barber">barber</option>
+                </select>
+            </li>
+        </ul>
+
+        <input type="submit" value="sign up">
+    </form>
+</body>
+</html>

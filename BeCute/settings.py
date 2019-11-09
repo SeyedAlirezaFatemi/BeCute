@@ -121,3 +121,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+AUTH_USER_MODEL = 'customer.CustomUser'  # for changing base user model for authentication
+LOGIN_REDIRECT_URL = '/accounts/profile'  # where to redirect after successful login
+LOGOUT_REDIRECT_URL = '/'
