@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BeCute Customer</title>
+</head>
+<body>
+{% block content %}
+
+your schedule from {{start_time}} to {{end_time}}:<br>
+{% for schedule in schedules %}
+    no. {{schedule.id}} at {{schedule.start}} for {{schedule.duration}}<br>
+{% endfor %}
+<br>
+reserved times from {{start_time}} to {{end_time}}:<br>
+{% for reserve in reservations %}
+no. {{reserve.id}} at {{reserve.start}} for {{reserve.duration}}<br>
+{% endfor %}
+<br>
+<br>
+<form method="post">
+add new free time:
+{% csrf_token %}
+    <input type="hidden" name="type" value="add">
+    enter year : <input type="text" name="year"><br>
+    enter month : <input type="text" name="month"><br>
+    enter day : <input type="text" name="day"><br>
+    enter hour : <input type="text" name="hour"><br>
+    enter minute : <input type="text" name="minute"><br>
+    enter duration(minute) : <input type="text" name="duration"><br>
+    <input type="submit" value="add">
+</form>
+<br>
+<form method="post">
+    remove free time:
+    {% csrf_token %}
+    <input type="hidden" name="type" value="remove">
+    enter free time no. : <input type="text" name="free_time"><br>
+    <input type="submit" value="remove">
+</form>
+
+{% endblock %}
+</body>
+</html>

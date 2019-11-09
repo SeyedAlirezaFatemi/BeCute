@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BeCute Customer</title>
+</head>
+<body>
+{% block content %}
+current reservations:<br>
+{% for reserve in reserves %}
+    no. {{reserve.id}} at {{reserve.start}} for {{reserve.duration}} in {{reserve.shop.name}} store<br>
+{% endfor %}
+<br>
+<br>
+
+cancel a reservation:
+<form method="post">
+    {% csrf_token %}
+    reservation no. : <input type="text" name="reserve_id"><br>
+    <input type="submit" value="cancel">
+</form>
+
+{% endblock %}
+</body>
+</html>

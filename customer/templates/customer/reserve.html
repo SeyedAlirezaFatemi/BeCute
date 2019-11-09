@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BeCute Customer</title>
+</head>
+<body>
+{% block content %}
+
+free times at {{shop.name}} barbershop:<br>
+{% for schedule in schedules %}
+    at {{schedule.start}} for {{schedule.duration}}<br>
+{% endfor %}
+
+<br>
+current reservations:<br>
+{% for reserve in reserves %}
+    at {{reserve.start}} for {{reserve.duration}}<br>
+{% endfor %}
+<br>
+<br>
+
+<form action="/customer/reserve/{{shop.id}}/" method="post">
+reserve a time:
+{% csrf_token %}
+    enter year : <input type="text" name="year"><br>
+    enter month : <input type="text" name="month"><br>
+    enter day : <input type="text" name="day"><br>
+    enter hour : <input type="text" name="hour"><br>
+    enter minute : <input type="text" name="minute"><br>
+    enter duration(minute) : <input type="text" name="duration"><br>
+    <input type="submit" value="reserve">
+</form>
+
+{% endblock %}
+</body>
+</html>
