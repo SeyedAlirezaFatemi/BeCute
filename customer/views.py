@@ -54,7 +54,7 @@ def reserve(request, shop_uid, start=None, end=None):
         reservation.save()
 
         # todo return result
-        return redirect('/customer/')
+        return HttpResponse('your reserve is registered')
 
     elif request.method == 'GET' and start is not None and end is not None:
 
