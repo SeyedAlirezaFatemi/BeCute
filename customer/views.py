@@ -4,6 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.db.models import F
+from django.views import generic
 
 from barber.models import Schedule, BarberShop
 from customer.models import Reservation
@@ -97,5 +98,20 @@ def search(request):
     return HttpResponse(" this is search page of costumer")
 
 
-def profile(request):
-    return HttpResponse(" this is profile page of costumer")
+class CustomerProfileView(generic.TemplateView):
+    template_name = 'customer/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CustomerProfileView, self).get_context_data(**kwargs)
+        # TODO filter by user
+        user_reservations = Reservation.objects.filter()
+        upcoming_reservations = user_reservations.filter(
+            state=Reservation.STATE_RESERVED
+        ).order_by(
+            'start'
+        )[:3]
+        previous_reservations = user_reservations.filter(
+            start__lt=datetime.datetime.now()
+        ).order_by('state', '-start')
+        context.update(upcoming_reservations=upcoming_reservations, previous_reservations=previous_reservations)
+        return context

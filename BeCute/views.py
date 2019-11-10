@@ -1,8 +1,9 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render
-from django.urls import reverse_lazy, reverse
 from django.views import generic
 from django.contrib.auth import login
+
+from BeCute.misc import get_login_redirect_url
 from .forms import SignupForm
 
 
@@ -26,7 +27,9 @@ def landing(request):
 class Signup(generic.CreateView):
     template_name = 'registration/signup.html'
     form_class = SignupForm
-    success_url = reverse_lazy('profile')
+
+    def get_success_url(self):
+        return get_login_redirect_url(self.request.user)
 
     def post(self, request, *args, **kwargs):
         resp = super(Signup, self).post(request, *args, **kwargs)
@@ -36,8 +39,10 @@ class Signup(generic.CreateView):
         return resp
 
 
-def profile(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('login'))
+class Login(LoginView):
+    def get_success_url(self):
+        return get_login_redirect_url(self.request.user)
 
-    return HttpResponse(f"you are {request.user.username}")
+
+def profile(request):
+    return render(request, 'base/base_profile.html', context={'user': request.user})

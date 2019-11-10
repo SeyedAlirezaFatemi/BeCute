@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Profile{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'base/css/base_profile.css' %}"
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="bc-profile">
+            <img align="left" class="bc-image-lg" src="{% static 'base/img/profile_bg.jpg' %}" alt="Profile image example"/>
+            <img align="left" class="bc-image-profile" src="{% static 'base/img/default_avatar.png' %}" alt="Profile image example"/>
+            <div class="bc-profile-text">
+                <h1>{{ user.username }}</h1>
+                <p>{{ user.first_name }} {{ user.last_name }}</p>
+            </div>
+        </div>
+    </div> <!-- /container -->
+    <br>
+    <div class="container">
+        {% block data %}{% endblock %}
+    </div>
+{% endblock %}
