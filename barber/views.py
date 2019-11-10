@@ -9,6 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from BeCute.misc import parse_date
 from customer.models import Reservation
 from barber.models import Schedule, BarberShop
+from account.models import CustomUser
 
 
 def main(request):
@@ -20,8 +21,9 @@ def profile(request):
 
 
 def schedule(request, start=None, end=None):
-    # fixme: replace 1 by shop_id from shop retrieved by barber user_id
-    shop = BarberShop.objects.get(id=1)
+    # fixme: replace 1 by shop_id from shop retrieved by barber user_id(fixed)
+    current_barber = CustomUser.objects.filter(username=request.user.username).all()[0]
+    shop = BarberShop.objects.filter(barber=current_barber).all()[0]
     if request.method == "POST":
         if request.POST.get('type') == "add":
 
@@ -47,8 +49,10 @@ def schedule(request, start=None, end=None):
             free_time.save()
 
         else:
-            # todo don't let barber cancel times with reservations
+            # todo don't let barber cancel times with reservations(fixed)
             try:
+                if Reservation.objects.filter(shop=shop,state='R'):
+                    return HttpResponse("this time is reserved by a customer!")
                 Schedule.objects.filter(id=int(request.POST.get('free_time'))).delete()
             except ObjectDoesNotExist:
                 pass

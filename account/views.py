@@ -9,7 +9,7 @@ from barber.models import BarberShop
 
 
 def landing(request):
-    return render(request, 'index.html', context={})
+    return render(request, 'index.html', context={})    # todo create barber index
 
 
 def signup(request):

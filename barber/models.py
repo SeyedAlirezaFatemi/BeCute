@@ -1,7 +1,7 @@
 from django.db import models
 # from django.contrib.gis.db import models as spatial_models
 
-# from customer.models import CustomUser
+from account.models import CustomUser
 
 
 class Service(models.Model):
@@ -12,7 +12,7 @@ class Service(models.Model):
 
 class BarberShop(models.Model):
     name = models.CharField(max_length=50)
-    # barber = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    barber = models.ForeignKey(CustomUser, on_delete=models.CASCADE,default=123456)
     service = models.ManyToManyField(
         Service,
         through='BarberService',
