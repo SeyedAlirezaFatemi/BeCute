@@ -7,7 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.views import generic
 
 
-from BeCute.misc import parse_date
+from BeCute.misc import parse_datetime
 from customer.models import Reservation
 from barber.models import Schedule, BarberShop
 
@@ -48,46 +48,28 @@ class BarberProfileView(generic.TemplateView):
         return context
 
 
-def schedule(request, start=None, end=None):
+def schedule(request):
     # fixme: replace 1 by shop_id from shop retrieved by barber user_id
     shop = BarberShop.objects.get(id=1)
     if request.method == "POST":
-        if request.POST.get('type') == "add":
+        start_dt = parse_datetime(request.POST.get('start', ''))
+        try:
+            duration = datetime.timedelta(minutes=int(request.POST.get('duration')))
+        except (TypeError, ValueError):
+            duration = None
+        if not start_dt and duration:
+            return HttpResponse('bad request')
+        if Schedule.objects.filter(
+                Q(start__lte=start_dt, start__gt=start_dt-F('duration')) |
+                Q(start__lt=start_dt+duration, start__gte=start_dt-F('duration')) |
+                Q(start__gte=start_dt, start__lte=start_dt+duration-F('duration')),
+                shop=shop,
+        ).exists():
+            return HttpResponse("there is an overlap with other free times")
 
-            day = int(request.POST.get('day', False))
-            year = int(request.POST.get('year', False))
-            hour = int(request.POST.get('hour', False))
-            month = int(request.POST.get('month', False))
-            minute = int(request.POST.get('minute', False))
-            start_dt = datetime.datetime(year=year, month=month, day=day, hour=hour, minute=minute)
-            duration = datetime.timedelta(
-                minutes=int(request.POST.get('duration', False))
-            )
+        Schedule.objects.create(shop=shop, start=start_dt, duration=duration)
 
-            if Schedule.objects.filter(
-                    Q(start__lte=start_dt, start__gt=start_dt-F('duration')) |
-                    Q(start__lt=start_dt+duration, start__gte=start_dt-F('duration')) |
-                    Q(start__gte=start_dt, start__lte=start_dt+duration-F('duration')),
-                    shop=shop,
-            ).exists():
-                return HttpResponse("there is an overlap with other free times")
-
-            free_time = Schedule(shop=shop, start=start_dt, duration=duration)
-            free_time.save()
-
-        else:
-            # todo don't let barber cancel times with reservations
-            try:
-                Schedule.objects.filter(id=int(request.POST.get('free_time'))).delete()
-            except ObjectDoesNotExist:
-                pass
-
-        return redirect('/barber/schedule/%s/%s/' % (start, end))
+        return redirect('/barbers/profile/')
 
     else:
-        reservations = Reservation.objects.filter(shop=shop, start__gte=parse_date(start),
-                                                  start__lte=parse_date(end)).all()
-        schedules = Schedule.objects.filter(shop=shop, start__gte=parse_date(start), start__lte=parse_date(end)).all()
-        return render(request, 'barber/schedule.html',
-                      {'schedules': schedules, 'reservations': reservations, 'start_time': start, 'end_time': end}
-                      )
+        return render(request, 'barber/new_schedule.html')

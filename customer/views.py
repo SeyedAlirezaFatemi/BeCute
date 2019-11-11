@@ -8,7 +8,8 @@ from django.views import generic
 
 from barber.models import Schedule, BarberShop
 from customer.models import Reservation
-from BeCute.misc import parse_date
+from BeCute.misc import parse_date, parse_datetime
+
 
 # from django.contrib.gis.geos.point import Point
 # from django.contrib.gis.db.models.functions import Distance
@@ -19,69 +20,50 @@ def main(request):
     return render(request, 'customer/index.html', context={})
 
 
-def reserve(request, shop_uid, start=None, end=None):
+def reserve(request):
     if request.method == 'POST':
-
-        day = int(request.POST.get('day', False))
-        year = int(request.POST.get('year', False))
-        hour = int(request.POST.get('hour', False))
-        month = int(request.POST.get('month', False))
-        minute = int(request.POST.get('minute', False))
-        start = datetime.datetime(year=year, month=month, day=day, hour=hour, minute=minute)
-        duration = datetime.timedelta(
-            minutes=int(request.POST.get('duration', False))
-        )
+        start = parse_datetime(request.POST.get('start', ''))
+        try:
+            shop = BarberShop.objects.get(id=int(request.POST.get('shop_id')))
+            duration = datetime.timedelta(minutes=int(request.POST.get('duration')))
+        except (TypeError, ValueError, BarberShop.DoesNotExist):
+            shop = None
+            duration = None
+        if not (start and duration and shop):
+            return HttpResponse('bad request')
 
         if Reservation.objects.filter(
-                shop=shop_uid,
+                shop=shop,
                 start__lt=start + duration,
                 start__gte=start-F('duration')
         ).exists() or not Schedule.objects.filter(
-            shop=shop_uid,
+            shop=shop,
             start__lte=start,
             start__gte=start+duration-F('duration')
         ).exists():
             return HttpResponse("requested time is not available")
 
-        reservation = Reservation(start=start, duration=duration, state='R')
-        reservation.save()
-
+        Reservation.objects.create(start=start, duration=duration, state='R', shop=shop)
         # todo return result
-        return redirect('/customer/')
+        return redirect('/customers/profile/')
 
-    elif request.method == 'GET' and start is not None and end is not None:
-
-        end = parse_date(end)
-        start = parse_date(start)
-
-        try:
-            shop = BarberShop.objects.get(id=shop_uid)
-            schedules = Schedule.objects.filter(shop=shop_uid, start__lt=end, start__gt=start).all()
-            reserves = Reservation.objects.filter(shop=shop_uid, start__lt=end, start__gt=start).all()
-
-            print(len(schedules), "\t", schedules)
-            return render(request, 'customer/reserve.html',
-                          {'shop': shop, 'reserves': reserves, 'schedules': schedules})
-
-        except ObjectDoesNotExist:
-            pass
+    else:
+        shops = BarberShop.objects.values_list('id', 'name')
+        return render(
+            request,
+            'customer/new_reservation.html',
+            {'shops': shops}
+        )
 
 
-def cancel(request, start, end):
+def cancel(request, reserve_id):
     if request.method == "POST":
-
         try:
-            reserve_id = int(request.POST.get('reserve_id'))
             Reservation.objects.filter(id=reserve_id).delete()
         except ObjectDoesNotExist:
             pass
 
-        return redirect("/customer/cancel/%s/%s" % (start, end))
-
-    else:
-        # fixme filter for current user
-        reserves = Reservation.objects.filter(start__lt=parse_date(end), start__gt=parse_date(start)).all()
-        return render(request, 'customer/cancel.html', {'reserves': reserves})
+        return redirect("/customers/profile")
 
 
 def search(request):

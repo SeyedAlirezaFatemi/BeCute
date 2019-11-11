@@ -8,5 +8,4 @@ urlpatterns = [
     path('profile/', login_required(views.BarberProfileView.as_view()), name='barber-profile'),
 
     path('schedule/', login_required(views.schedule), name='schedule'),
-    path('schedule/<str:start>/<str:end>/', login_required(views.schedule), name='schedule')
 ]

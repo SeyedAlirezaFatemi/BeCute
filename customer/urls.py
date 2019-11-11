@@ -9,9 +9,7 @@ urlpatterns = [
     path('search/', login_required(views.search)),
     path('profile/', login_required(views.CustomerProfileView.as_view()), name='customer-profile'),
 
-    path('reserve/<int:shop_uid>/', login_required(views.reserve)),
-    path('reserve/<int:shop_uid>/<str:start>/<str:end>/', login_required(views.reserve)),
-
-    path('cancel/<str:start>/<str:end>/', login_required(views.cancel)),
+    path('reserve/', login_required(views.reserve), name='reserve'),
+    path('cancel/<int:reserve_id>/', login_required(views.cancel), name='cancel'),
 
 ]

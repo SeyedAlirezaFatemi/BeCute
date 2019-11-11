@@ -33,3 +33,7 @@ body
     border-radius: 50%;
 }
 }
+
+table td, th {
+    text-align: center;
+}

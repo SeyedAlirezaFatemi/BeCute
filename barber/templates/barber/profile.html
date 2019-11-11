@@ -13,8 +13,8 @@
                         </tr>
                         {% for schedule in shop_schedules %}
                             <tr>
-                                <td>schedule.start</td>
-                                <td>schedule.duration</td>
+                                <td>{{ schedule.start }}</td>
+                                <td>{{ schedule.duration }}</td>
                             </tr>
                         {% endfor %}
                     </table>
@@ -22,7 +22,7 @@
             {% else %}
                 <div class="text-info">No schedules yet.</div>
             {% endif %}
-            <div>
+            <div onclick="(() => {window.location = '{% url 'schedule' %}'})()">
                 <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> new schedule</button>
             </div>
         </div>
@@ -40,9 +40,8 @@
                         </tr>
                         {% for reservation in upcoming_reservations %}
                             <tr>
-                                <td>reservation.start</td>
-                                <td>reservation.shop.name</td>
-                                <td>reservation.duration</td>
+                                <td>{{ reservation.start }}</td>
+                                <td>{{ reservation.duration }}</td>
                             </tr>
                         {% endfor %}
                     </table>
@@ -63,9 +62,8 @@
                         </tr>
                         {% for reservation in previous_reservations %}
                             <tr>
-                                <td>reservation.start</td>
-                                <td>reservation.shop.name</td>
-                                <td>reservation.duration</td>
+                                <td>{{ reservation.start }}</td>
+                                <td>{{ reservation.duration }}</td>
                             </tr>
                         {% endfor %}
                     </table>
