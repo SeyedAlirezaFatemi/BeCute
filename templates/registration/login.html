@@ -1,15 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Log in</title>
-</head>
-<body>
-    <h2>Login</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Login</button>
-</form>
-</body>
-</html>
+{% extends "base/base.html" %}
+{% block styles %}{% endblock %}
+{% block title %}login{% endblock %}
+
+{% block content %}
+    {% load static %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 col-xs-12 center-horizontal-vertical">
+                <form id="login_form" class="login form-horizontal" method="POST" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <img src="{% static 'base/img/logo.jpeg' %}" class="text-center center-block"
+                             width="100px" height="100px">
+                        <h2 class="text-center logo-text">‌BeCute!</h2>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-10 col-md-offset-1">
+                            <input type="text" id="id_username" name="username" placeholder="username" class="form-control">
+                            <div class="text-danger">
+                                {{ form.username.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-10 col-md-offset-1">
+                            <input type="password" id="id_password" name="password" placeholder="password" class="form-control">
+
+                            <div class="text-danger">
+                                {{ form.password.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-10 col-md-offset-1">
+                            <button id="id_signup_button" class="btn btn-primary center-block btn-block" type="submit">login!
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-center">
+                        <a href="{% url 'signup' %}">Do not have an account yet? Sign Up</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

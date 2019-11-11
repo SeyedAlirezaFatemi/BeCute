@@ -1,0 +1,39 @@
+body
+{
+    font-family: 'Open Sans', sans-serif;
+}
+
+.bc-profile img.bc-image-lg{
+    z-index: 0;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.bc-image-profile
+{
+    margin: -90px 10px 0px 50px;
+    z-index: 9;
+    width: 20%;
+    border-radius: 50%;
+}
+
+@media (max-width:768px)
+{
+
+.bc-profile-text>h1{
+    font-weight: 700;
+    font-size:16px;
+}
+
+.bc-image-profile
+{
+    margin: -45px 10px 0px 25px;
+    z-index: 9;
+    width: 20%;
+    border-radius: 50%;
+}
+}
+
+table td, th {
+    text-align: center;
+}

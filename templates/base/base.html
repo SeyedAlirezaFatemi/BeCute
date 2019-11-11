@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    {% block meta %}{% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    {% load static %}
+    <link href="{% static "base/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet"/>
+{#    <link href="{% static "base/bootstrap/css/bootstrap-rtl.min.css" %}" rel="stylesheet"/>#}
+{#    <link rel="icon" href="{% static 'icons/logo.png' %}" type="image/x-icon"/>#}
+
+    {% block styles %}{% endblock %}
+    {% block resource %}{% endblock %}
+</head>
+
+
+<body>
+
+{% block content %}
+{% endblock %}
+
+<!-- Scripts -->
+<script src="{% static "base/bootstrap/js/jquery.min.js" %}"></script>
+<script src="{% static "base/bootstrap/js/bootstrap.min.js" %}"></script>
+{% block javascript %}{% endblock %}
+</body>
+</html>

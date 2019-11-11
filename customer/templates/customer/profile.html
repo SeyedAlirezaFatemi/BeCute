@@ -1,0 +1,60 @@
+{% extends 'base/base_profile.html' %}
+{% load static %}
+{% block data %}
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Upcoming Reservations</h3>
+            {% if upcoming_reservations %}
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>when</th>
+                            <th>where</th>
+                            <th>duration</th>
+                            <th>cancel</th>
+                        </tr>
+                        {% for reservation in upcoming_reservations %}
+                            <tr>
+                                <td>{{ reservation.start }}</td>
+                                <td>{{ reservation.shop.name }}</td>
+                                <td>{{ reservation.duration }}</td>
+                                <td><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove" onclick="(() => {window.location = '{% url 'cancel' reservation.id %}'})()"></span></button></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-info">No upcoming reservations.</div>
+            {% endif %}
+            <div onclick="(() => {window.location = '{% url 'reserve' %}'})()">
+                <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> new reservation</button>
+            </div>
+        </div>
+        <div class="col-md-5 col-md-offset-1">
+            <h3>Previous Reservations</h3>
+            {% if previous_reservations %}
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>when</th>
+                            <th>where</th>
+                            <th>duration</th>
+                        </tr>
+                        {% for reservation in previous_reservations %}
+                            <tr>
+                                <td>{{ reservation.start }}</td>
+                                <td>{{ reservation.shop.name }}</td>
+                                <td>{{ reservation.duration }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-info">No reservation history.</div>
+            {% endif %}
+            <div>
+                <button type="button" class="btn btn-default pull-right"><span class="glyphicon glyphicon-list"></span> view all reservations</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
