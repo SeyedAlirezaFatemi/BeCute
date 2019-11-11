@@ -1,0 +1,20 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Profile{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'base/css/base_profile.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="bc-profile">
+            <img align="left" class="bc-image-lg" src="{% static 'base/img/profile_bg.jpg' %}" alt="Profile image example"/>
+            <br>
+            <div class="col-md-9 pull-left">{% block form %}{% endblock %}</div>
+            <img src="{% block sidebar_image %}{% endblock %}" class="col-md-3 pull-right" alt="Sidebar image example">
+        </div>
+    </div> <!-- /container -->
+    <br>
+    <div class="container">
+        {% block data %}{% endblock %}
+    </div>
+{% endblock %}

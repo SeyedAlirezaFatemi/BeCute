@@ -1,25 +1,21 @@
 from django.db import models
 
 from barber.models import BarberShop
-
-from django.contrib.auth.models import AbstractUser, User
-
+from account.models import CustomUser
 
 
 class Reservation(models.Model):
+    STATE_RESERVED = 'R'
+    STATE_DONE = 'D'
+    STATE_CANCELED = 'C'
     STATES = (
-        ('R', 'reserved'),
-        ('D', 'done'),
-        ('C', 'canceled'),
+        (STATE_RESERVED, 'reserved'),
+        (STATE_DONE, 'done'),
+        (STATE_CANCELED, 'canceled'),
     )
 
-    shop = models.ForeignKey(BarberShop, on_delete=models.CASCADE, default=1)
-    # customer = models.ForeignKey(USER, on_delete=models.CASCADE) TODO link to user
+    shop = models.ForeignKey(BarberShop, on_delete=models.CASCADE, default=1234567)
+    customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1234567)
     start = models.DateTimeField()
     duration = models.DurationField()
     state = models.CharField(max_length=1, choices=STATES)
-
-class CustomUser(AbstractUser):
-    type = models.CharField(max_length=100, choices=(('client', 'client'), ('barber', 'barber')))
-
-
