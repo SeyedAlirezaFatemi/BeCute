@@ -68,7 +68,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group hidden" id="shop_name_box">
                         <div class="col-md-10 col-md-offset-1">
                             <input type="text" id="id_shop_name" name="shop_name" placeholder="shop name" class="form-control">
                             <div class="text-danger">
@@ -93,12 +93,12 @@
 {% block javascript %}
     <script type="text/javascript">
         let user_type = $('#id_type');
-        let shop_name = $('#id_shop_name');
+        let shop_name_box = $('#shop_name_box');
         user_type.on('change', function () {
             if(user_type.val() === 'barber')
-                shop_name.attr('hidden', false);
+                shop_name_box.removeClass('hidden');
             else
-                shop_name.attr('hidden', true);
+                shop_name_box.addClass('hidden');
         })
     </script>
 {% endblock %}
