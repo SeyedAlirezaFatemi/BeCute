@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from barber.models import *
+
+admin.site.register(Service)
+admin.site.register(Schedule)
+admin.site.register(BarberShop)
+admin.site.register(BarberService)

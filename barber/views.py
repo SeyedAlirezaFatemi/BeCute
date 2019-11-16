@@ -8,6 +8,7 @@ from django.views import generic
 
 from BeCute.misc import parse_datetime
 from customer.models import Reservation
+from account.models import CustomUser
 from barber.models import Schedule, BarberShop
 
 
@@ -21,8 +22,9 @@ class BarberProfileView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super(BarberProfileView, self).get_context_data(**kwargs)
 
-        # TODO fix this so it retrieves shop from the user
-        shop = BarberShop.objects.first()
+        shop = BarberShop.objects.get(
+            barber=CustomUser.objects.get(username=self.request.user.username)
+        )
 
         shop_reservations = Reservation.objects.filter(shop=shop)
         upcoming_reservations = shop_reservations.filter(
@@ -36,7 +38,7 @@ class BarberProfileView(generic.TemplateView):
 
         shop_schedules = Schedule.objects.filter(
             shop=shop,
-            start__gt=datetime.datetime.now()
+            # start__gt=datetime.datetime.now()
         )[:5]
 
         context.update(
