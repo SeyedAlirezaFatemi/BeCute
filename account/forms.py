@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth import authenticate
 
 from barber.models import BarberShop
 from customer.models import CustomUser
@@ -31,6 +32,7 @@ class SignupForm(forms.ModelForm):
     def save(self, commit=True):
         data = self.cleaned_data
         shop_name = data.pop("shop_name")
-        user = CustomUser.objects.create_user(**data)
-        BarberShop.objects.create(barber=user, name=shop_name)
-        return user
+        user_created = CustomUser.objects.create_user(data.pop("username"), data.pop("email"), data.pop("password"), **data)
+        if data.get("type") == CustomUser.USER_TYPE_BARBER:
+            BarberShop.objects.create(barber=user_created, name=shop_name)
+        return user_created

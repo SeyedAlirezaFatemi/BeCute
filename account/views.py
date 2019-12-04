@@ -1,9 +1,9 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render
 from django.views import generic
 
-from BeCute.misc import get_login_redirect_url
+from BeCute.misc import get_login_redirect_url, get_signup_redirect_url
 from account.forms import SignupForm
 
 
@@ -16,13 +16,13 @@ class Signup(generic.CreateView):
     form_class = SignupForm
 
     def get_success_url(self):
-        return get_login_redirect_url(self.request.user)
+        return get_signup_redirect_url()
 
     def post(self, request, *args, **kwargs):
         resp = super(Signup, self).post(request, *args, **kwargs)
-        user = self.object
-        if user:
-            login(request, user)
+        # user = self.object
+        # if user:
+        #     login(request, user)
         return resp
 
 

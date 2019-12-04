@@ -25,3 +25,7 @@ def get_login_redirect_url(user):
     elif user.type == CustomUser.USER_TYPE_CLIENT:
         return reverse_lazy("customer-profile")
     return reverse_lazy("profile")
+
+
+def get_signup_redirect_url():
+    return reverse_lazy("login")
