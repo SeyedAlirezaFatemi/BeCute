@@ -76,6 +76,46 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group hidden" id="introduction_box">
+                        <div class="col-md-10 col-md-offset-1">
+                            <input type="text" id="id_introduction" name="introduction" placeholder="introduction" class="form-control">
+                            <div class="text-danger">
+                                {{ form.introduction.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group hidden" id="city_box">
+                        <div class="col-md-10 col-md-offset-1">
+                            <input type="text" id="id_city" name="city" placeholder="city" class="form-control">
+                            <div class="text-danger">
+                                {{ form.city.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group hidden" id="address_box">
+                        <div class="col-md-10 col-md-offset-1">
+                            <input type="text" id="id_address" name="address" placeholder="address" class="form-control">
+                            <div class="text-danger">
+                                {{ form.address.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group hidden" id="phone_box">
+                        <div class="col-md-10 col-md-offset-1">
+                            <input type="text" id="id_phone_box" name="phone" placeholder="phone" class="form-control">
+                            <div class="text-danger">
+                                {{ form.phone.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group hidden" id="foundation_year_box">
+                        <div class="col-md-10 col-md-offset-1">
+                            <input type="text" id="id_foundation_year" name="foundation_year" placeholder="foundation year" class="form-control">
+                            <div class="text-danger">
+                                {{ form.foundation_year.errors }}
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <div class="col-md-10 col-md-offset-1">
                             <button id="id_signup_button" class="btn btn-primary center-block btn-block" type="submit">signup!
@@ -94,11 +134,28 @@
     <script type="text/javascript">
         let user_type = $('#id_type');
         let shop_name_box = $('#shop_name_box');
+        let introduction_box = $('#introduction_box');
+        let city_box = $('#city_box');
+        let address_box = $('#address_box');
+        let foundation_year_box = $('#foundation_year_box');
+        let phone_box = $('#phone_box');
         user_type.on('change', function () {
-            if(user_type.val() === 'barber')
+            if(user_type.val() === 'barber') {
                 shop_name_box.removeClass('hidden');
-            else
+                introduction_box.removeClass('hidden');
+                city_box.removeClass('hidden');
+                address_box.removeClass('hidden');
+                foundation_year_box.removeClass('hidden');
+                phone_box.removeClass('hidden');
+            }
+            else {
                 shop_name_box.addClass('hidden');
+                introduction_box.addClass('hidden');
+                city_box.addClass('hidden');
+                address_box.addClass('hidden');
+                foundation_year_box.addClass('hidden');
+                phone_box.addClass('hidden');
+            }
         })
     </script>
 {% endblock %}

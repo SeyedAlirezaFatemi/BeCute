@@ -21,9 +21,8 @@ class BarberShop(models.Model):
     )
     address = models.CharField(max_length=200, default="")
     city = models.CharField(max_length=50, default="")
-    foundation_year = models.IntegerField(default=2019)
-
-    # TODO: get input fields in signup form
+    foundation_year = models.CharField(max_length=4, default="2019")
+    phone = models.CharField(max_length=20, default="")
 
     # location = spatial_models.PointField()
 
