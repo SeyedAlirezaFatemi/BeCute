@@ -1,0 +1,54 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Profile{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'base/css/base_profile.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="bc-profile">
+            <img align="left" class="bc-image-lg" src="{% static 'base/img/profile_bg.jpg' %}" alt="Profile image example"/>
+            <img align="left" class="bc-image-profile" src="{% static 'base/img/default_avatar.png' %}" alt="Profile image example"/>
+            <div class="bc-profile-text">
+                <h1>{{ barbershop.name }}</h1>
+                <p>{{ barbershop.barber.first_name }} {{ barbershop.barber.last_name }}</p>
+            </div>
+        </div>
+    </div> <!-- /container -->
+    <br>
+    <div class="container">
+        {% block data %}{% endblock %}
+    </div>
+{% endblock %}
+{% block info %}
+    <div>
+        <h1>{{ barbershop.introduction }}</h1>
+    </div>
+{#    <div class="row">#}
+{#        <div class="col-md-6">#}
+{#            <h3>Comments</h3>#}
+{#            {% if previous_comments or True %}#}
+{#                <div class="table-responsive">#}
+{#                    <table class="table table-bordered">#}
+{#                        <tr>#}
+{#                            <th>user</th>#}
+{#                            <th>review</th>#}
+{#                            <th>rate</th>#}
+{#                        </tr>#}
+{#                        {% for comment in shop_comments %}#}
+{#                            <tr>#}
+{#                                <td>{{ comment.user }}</td>#}
+{#                                <td>{{ comment.review }}</td>#}
+{#                                <td>{{ comment.rate }}</td>#}
+{#                        {% endfor %}#}
+{#                    </table>#}
+{#                </div>#}
+{#            {% else %}#}
+{#                <div class="text-info">No comments yet.</div>#}
+{#            {% endif %}#}
+{#            <div onclick="(() => {window.location = '{% url 'comment' %}'})()"> {# TODO: new comment#}
+{#                <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> new comment </button>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{% endblock %}

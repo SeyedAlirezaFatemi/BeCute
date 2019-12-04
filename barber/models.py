@@ -19,6 +19,11 @@ class BarberShop(models.Model):
     service = models.ManyToManyField(
         Service, through="BarberService", through_fields=("shop", "service")
     )
+    address = models.CharField(max_length=200)
+    city = models.CharField(max_length=50)
+    foundation_year = models.IntegerField(max_length=4)
+
+    # TODO: get input fields in signup form
 
     # location = spatial_models.PointField()
 

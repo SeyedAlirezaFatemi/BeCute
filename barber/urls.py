@@ -16,4 +16,7 @@ urlpatterns = [
         login_required(views.cancel_schedule),
         name="cancel-schedule",
     ),
+    path('<str:barbershop_id>/profile',
+         views.profile,
+         name='info'),
 ]

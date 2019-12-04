@@ -89,3 +89,10 @@ def cancel_schedule(request, schedule_id):
             return HttpResponse("There are reservations in this time.")
         schedule_to_be_deleted.delete()
     return redirect("/barbers/profile")
+
+def profile(request, barbershop_id):
+    barbershop = BarberShop.objects.get(
+        name=barbershop_id
+    )
+
+    return render(request, 'barber/info.html', {'barbershop': barbershop})
