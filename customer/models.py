@@ -5,13 +5,13 @@ from account.models import CustomUser
 
 
 class Reservation(models.Model):
-    STATE_RESERVED = 'R'
-    STATE_DONE = 'D'
-    STATE_CANCELED = 'C'
+    STATE_RESERVED = "R"
+    STATE_DONE = "D"
+    STATE_CANCELED = "C"
     STATES = (
-        (STATE_RESERVED, 'reserved'),
-        (STATE_DONE, 'done'),
-        (STATE_CANCELED, 'canceled'),
+        (STATE_RESERVED, "reserved"),
+        (STATE_DONE, "done"),
+        (STATE_CANCELED, "canceled"),
     )
 
     shop = models.ForeignKey(BarberShop, on_delete=models.CASCADE, default=1234567)

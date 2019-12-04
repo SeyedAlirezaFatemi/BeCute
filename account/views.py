@@ -8,11 +8,11 @@ from account.forms import SignupForm
 
 
 def landing(request):
-    return render(request, 'index.html', context={})    # todo create barber index
+    return render(request, "index.html", context={})  # todo create barber index
 
 
 class Signup(generic.CreateView):
-    template_name = 'registration/signup.html'
+    template_name = "registration/signup.html"
     form_class = SignupForm
 
     def get_success_url(self):
@@ -32,4 +32,4 @@ class Login(LoginView):
 
 
 def profile(request):
-    return render(request, 'base/base_profile.html', context={'user': request.user})
+    return render(request, "base/base_profile.html", context={"user": request.user})

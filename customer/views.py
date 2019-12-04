@@ -13,30 +13,29 @@ from BeCute.misc import parse_datetime
 
 def main(request):
     print("customer index")
-    return render(request, 'customer/index.html', context={})
+    return render(request, "customer/index.html", context={})
 
 
 def reserve(request):
-    if request.method == 'POST':
-        start = parse_datetime(request.POST.get('start', ''))
+    if request.method == "POST":
+        start = parse_datetime(request.POST.get("start", ""))
         try:
-            shop = BarberShop.objects.get(id=int(request.POST.get('shop_id')))
-            duration = datetime.timedelta(minutes=int(request.POST.get('duration')))
+            shop = BarberShop.objects.get(id=int(request.POST.get("shop_id")))
+            duration = datetime.timedelta(minutes=int(request.POST.get("duration")))
         except (TypeError, ValueError, BarberShop.DoesNotExist):
             shop = None
             duration = None
         if not (start and duration and shop):
-            return HttpResponse('bad request')
+            return HttpResponse("bad request")
 
-        if Reservation.objects.filter(
-                shop=shop,
-                start__lt=start + duration,
-                start__gte=start-F('duration')
-        ).exists() or not Schedule.objects.filter(
-            shop=shop,
-            start__lte=start,
-            start__gte=start+duration-F('duration')
-        ).exists():
+        if (
+            Reservation.objects.filter(
+                shop=shop, start__lt=start + duration, start__gte=start - F("duration")
+            ).exists()
+            or not Schedule.objects.filter(
+                shop=shop, start__lte=start, start__gte=start + duration - F("duration")
+            ).exists()
+        ):
             return HttpResponse("requested time is not available")
 
         Reservation.objects.create(
@@ -44,22 +43,20 @@ def reserve(request):
             customer=request.user,
             duration=duration,
             start=start,
-            state=Reservation.STATE_RESERVED
+            state=Reservation.STATE_RESERVED,
         )
 
-        return redirect('/customers/profile')
+        return redirect("/customers/profile")
 
     else:
-        shops = BarberShop.objects.values_list('id', 'name')
-        return render(
-            request,
-            'customer/new_reservation.html',
-            {'shops': shops}
-        )
+        shops = BarberShop.objects.values_list("id", "name")
+        return render(request, "customer/new_reservation.html", {"shops": shops})
 
 
 def cancel(request, reserve_id):
-    Reservation.objects.filter(id=reserve_id, customer=request.user).update(state=Reservation.STATE_CANCELED)
+    Reservation.objects.filter(id=reserve_id, customer=request.user).update(
+        state=Reservation.STATE_CANCELED
+    )
     return redirect("/customers/profile")
 
 
@@ -78,7 +75,7 @@ def search(request):
 
 
 class CustomerProfileView(generic.TemplateView):
-    template_name = 'customer/profile.html'
+    template_name = "customer/profile.html"
 
     def get_context_data(self, **kwargs):
         context = super(CustomerProfileView, self).get_context_data(**kwargs)
@@ -86,11 +83,12 @@ class CustomerProfileView(generic.TemplateView):
         user_reservations = Reservation.objects.filter()
         upcoming_reservations = user_reservations.filter(
             state=Reservation.STATE_RESERVED
-        ).order_by(
-            'start'
-        )[:3]
+        ).order_by("start")[:3]
         previous_reservations = user_reservations.filter(
             start__lt=datetime.datetime.now()
-        ).order_by('state', '-start')
-        context.update(upcoming_reservations=upcoming_reservations, previous_reservations=previous_reservations)
+        ).order_by("state", "-start")
+        context.update(
+            upcoming_reservations=upcoming_reservations,
+            previous_reservations=previous_reservations,
+        )
         return context
