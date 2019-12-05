@@ -13,4 +13,9 @@ urlpatterns = [
     ),
     path("reserve/", login_required(views.reserve), name="reserve"),
     path("cancel/<int:reserve_id>/", login_required(views.cancel), name="cancel"),
+    path(
+        "<str:barbershop_name>/comment/",
+        login_required(views.CreateComment.as_view()),
+        name="comment",
+    ),
 ]

@@ -97,5 +97,8 @@ def profile(request, barbershop_id):
     barbershop = BarberShop.objects.get(
         name=barbershop_id
     )
-
+    # user = request.user
+    # show_comment_form = False
+    # if user.type == CustomUser.USER_TYPE_CLIENT:
+    #     show_comment_form = True
     return render(request, 'barber/info.html', {'barbershop': barbershop})

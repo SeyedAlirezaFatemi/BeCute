@@ -1,19 +1,45 @@
 import datetime
 
+from django import http
+from django.db.models import F
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.db.models import F
-from django.urls import reverse_lazy, reverse
-from django.views import generic
+from django.urls import reverse
+from django.views.generic import TemplateView, CreateView
 
-from barber.models import Schedule, BarberShop
-from customer.models import Reservation
 from BeCute.misc import parse_datetime
+from barber.models import Schedule, BarberShop
+from customer.forms import CommentForm
+from customer.models import Reservation
+
+
+# from django.views.generic.edit import CreateView
 
 
 def main(request):
     print("customer index")
     return render(request, "customer/index.html", context={})
+
+
+class CreateComment(CreateView):
+    template_name = "customer/comment.html"
+    form_class = CommentForm
+
+    def get_success_url(self):
+        return reverse('info', kwargs={'barbershop_id': self.barbershop_name})
+
+    def form_invalid(self, form):
+        return http.HttpResponse("form is invalid.. this is just an HttpResponse object")
+
+    def dispatch(self, request, *args, **kwargs):
+        self.barbershop_name = kwargs['barbershop_name']
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super(CreateComment, self).get_form_kwargs()
+        barber_shop = BarberShop.objects.get(name=self.barbershop_name)
+        kwargs.update({'request': self.request, 'barbershop': barber_shop})
+        return kwargs
 
 
 def reserve(request):
@@ -33,8 +59,8 @@ def reserve(request):
                 shop=shop, start__lt=start + duration, start__gte=start - F("duration")
             ).exists()
             or not Schedule.objects.filter(
-                shop=shop, start__lte=start, start__gte=start + duration - F("duration")
-            ).exists()
+            shop=shop, start__lte=start, start__gte=start + duration - F("duration")
+        ).exists()
         ):
             return HttpResponse("requested time is not available")
 
@@ -74,7 +100,7 @@ def search(request):
     return HttpResponse(" this is search page of costumer")
 
 
-class CustomerProfileView(generic.TemplateView):
+class CustomerProfileView(TemplateView):
     template_name = "customer/profile.html"
 
     def get_context_data(self, **kwargs):

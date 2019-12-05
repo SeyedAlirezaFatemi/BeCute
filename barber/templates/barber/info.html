@@ -7,8 +7,10 @@
 {% block content %}
     <div class="container">
         <div class="bc-profile">
-            <img align="left" class="bc-image-lg" src="{% static 'base/img/profile_bg.jpg' %}" alt="Profile image example"/>
-            <img align="left" class="bc-image-profile" src="{% static 'base/img/default_avatar.png' %}" alt="Profile image example"/>
+            <img align="left" class="bc-image-lg" src="{% static 'base/img/profile_bg.jpg' %}"
+                 alt="Profile image example"/>
+            <img align="left" class="bc-image-profile" src="{% static 'base/img/default_avatar.png' %}"
+                 alt="Profile image example"/>
             <div class="bc-profile-text">
                 <h1>{{ barbershop.name }}</h1>
                 <p>{{ barbershop.barber.first_name }} {{ barbershop.barber.last_name }}</p>
@@ -18,46 +20,46 @@
     <br>
     <div class="container">
         {% block data %}
-    <div class="card" style="width: 54rem;">
-  <div class="card-header">
-      <h3>Information</h3>
-  </div>
-  <ul class="list-group list-group-flush">
-      <li class="list-group-item"><h4>Introduction: {{ barbershop.introduction }}</h4></li>
-      <li class="list-group-item"><h4>City: {{ barbershop.city }}</h4></li>
-      <li class="list-group-item"><h4>Foundation Year: {{ barbershop.foundation_year }}</h4></li>
-      <li class="list-group-item"><h4>Address: {{ barbershop.address }}</h4></li>
-      <li class="list-group-item"><h4>Phone: {{ barbershop.phone }}</h4></li>
-  </ul>
-</div>{% endblock %}
+            <div class="card" style="width: 54rem;">
+                <div class="card-header">
+                    <h3>Information</h3>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><h4>Introduction: {{ barbershop.introduction }}</h4></li>
+                    <li class="list-group-item"><h4>City: {{ barbershop.city }}</h4></li>
+                    <li class="list-group-item"><h4>Foundation Year: {{ barbershop.foundation_year }}</h4></li>
+                    <li class="list-group-item"><h4>Address: {{ barbershop.address }}</h4></li>
+                    <li class="list-group-item"><h4>Phone: {{ barbershop.phone }}</h4></li>
+                </ul>
+            </div>{% endblock %}
     </div>
-{#{% endblock %}#}
-{#{% block info %}#}
-{#    <div class="row">#}
-{#        <div class="col-md-6">#}
-{#            <h3>Comments</h3>#}
-{#            {% if previous_comments or True %}#}
-{#                <div class="table-responsive">#}
-{#                    <table class="table table-bordered">#}
-{#                        <tr>#}
-{#                            <th>user</th>#}
-{#                            <th>review</th>#}
-{#                            <th>rate</th>#}
-{#                        </tr>#}
-{#                        {% for comment in shop_comments %}#}
-{#                            <tr>#}
-{#                                <td>{{ comment.user }}</td>#}
-{#                                <td>{{ comment.review }}</td>#}
-{#                                <td>{{ comment.rate }}</td>#}
-{#                        {% endfor %}#}
-{#                    </table>#}
-{#                </div>#}
-{#            {% else %}#}
-{#                <div class="text-info">No comments yet.</div>#}
-{#            {% endif %}#}
-{#            <div onclick="(() => {window.location = '{% url 'comment' %}'})()"> {# TODO: new comment#}
-{#                <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> new comment </button>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Comments</h3>
+            {% if previous_comments or True %}
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>user</th>
+                            <th>review</th>
+                            <th>rate</th>
+                        </tr>
+                        {% for comment in shop_comments %}
+                            <tr>
+                            <td>{{ comment.user }}</td>
+                            <td>{{ comment.review }}</td>
+                            <td>{{ comment.rate }}</td>
+                        {% endfor %}
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-info">No comments yet.</div>
+            {% endif %}
+            <div onclick="(() => {window.location = '{% url 'comment' barbershop_name=barbershop.name %}'})()">
+                <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span>
+                    new comment
+                </button>
+            </div>
+        </div>
+    </div>
 {% endblock %}
