@@ -6,7 +6,6 @@ from django.shortcuts import render, redirect
 from django.views import generic
 
 from BeCute.misc import parse_datetime
-from account.models import CustomUser
 from barber.models import Schedule, BarberShop
 from customer.models import Reservation
 
@@ -20,9 +19,9 @@ class BarberProfileView(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(BarberProfileView, self).get_context_data(**kwargs)
-
+        user = self.request.user
         shop = BarberShop.objects.get(
-            barber=CustomUser.objects.get(username=self.request.user.username)
+            barber=user
         )
 
         shop_reservations = Reservation.objects.filter(shop=shop)
@@ -38,10 +37,13 @@ class BarberProfileView(generic.TemplateView):
             # start__gt=datetime.datetime.now()
         )[:5]
 
+        barber_name = BarberShop.objects.get(barber=user).name
+
         context.update(
             upcoming_reservations=upcoming_reservations,
             previous_reservations=previous_reservations,
             shop_schedules=shop_schedules,
+            barber_name=barber_name,
         )
         return context
 
@@ -89,6 +91,7 @@ def cancel_schedule(request, schedule_id):
             return HttpResponse("There are reservations in this time.")
         schedule_to_be_deleted.delete()
     return redirect("/barbers/profile")
+
 
 def profile(request, barbershop_id):
     barbershop = BarberShop.objects.get(

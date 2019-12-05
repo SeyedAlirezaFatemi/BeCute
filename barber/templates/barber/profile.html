@@ -2,6 +2,11 @@
 {% load static %}
 {% block data %}
     <div class="row">
+        <div onclick="(() => {window.location = '{% url 'info' barbershop_id=barber_name %}'})()">
+            <button type="button" class="btn btn-primary pull-right">
+                Shop Profile
+            </button>
+        </div>
         <div class="col-md-6">
             <h3>Schedules</h3>
             {% if previous_reservations or True %}
@@ -16,7 +21,12 @@
                             <tr>
                                 <td>{{ schedule.start }}</td>
                                 <td>{{ schedule.duration }}</td>
-                                <td><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove" onclick="(() => {window.location = '{% url 'cancel-schedule' schedule.id %}'})()"></span></button></td>
+                                <td>
+                                    <button type="button" class="btn btn-danger"><span
+                                            class="glyphicon glyphicon-remove"
+                                            onclick="(() => {window.location = '{% url 'cancel-schedule' schedule.id %}'})()"></span>
+                                    </button>
+                                </td>
                             </tr>
                         {% endfor %}
                     </table>
@@ -25,7 +35,9 @@
                 <div class="text-info">No schedules yet.</div>
             {% endif %}
             <div onclick="(() => {window.location = '{% url 'schedule' %}'})()">
-                <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span> new schedule</button>
+                <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span>
+                    new schedule
+                </button>
             </div>
         </div>
     </div>
@@ -72,7 +84,9 @@
                 <div class="text-info">No reservation history.</div>
             {% endif %}
             <div>
-                <button type="button" class="btn btn-default pull-right"><span class="glyphicon glyphicon-list"></span> view all reservations</button>
+                <button type="button" class="btn btn-default pull-right"><span class="glyphicon glyphicon-list"></span>
+                    view all reservations
+                </button>
             </div>
         </div>
     </div>
