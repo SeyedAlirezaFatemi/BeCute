@@ -18,7 +18,6 @@
 
 
 <body>
-
 {% block content %}
 {% endblock %}
 
@@ -26,5 +25,14 @@
 <script src="{% static "base/bootstrap/js/jquery.min.js" %}"></script>
 <script src="{% static "base/bootstrap/js/bootstrap.min.js" %}"></script>
 {% block javascript %}{% endblock %}
+<br>
+{% if user.is_authenticated %}
+    <div class="container">
+            <div align= "right" >
+                    <a href="{% url 'logout' %}"> <button type="button" class="btn btn-danger">Logout from {{ user.username }}</button></a>
+            </div>
+    </div>
+{% endif %}
+<br>
 </body>
 </html>

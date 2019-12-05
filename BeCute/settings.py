@@ -119,4 +119,4 @@ AUTH_USER_MODEL = (
     "account.CustomUser"
 )  # for changing base user model for authentication
 LOGIN_REDIRECT_URL = "/accounts/profile"  # where to redirect after successful login
-LOGOUT_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/accounts/login"

@@ -21,9 +21,9 @@ def parse_datetime(datetime_str: str):
 
 def get_login_redirect_url(user):
     if user.type == CustomUser.USER_TYPE_BARBER:
-        return reverse_lazy("barber-profile")
+        return reverse_lazy("schedule")
     elif user.type == CustomUser.USER_TYPE_CLIENT:
-        return reverse_lazy("customer-profile")
+        return reverse_lazy("reserve")
     return reverse_lazy("profile")
 
 
