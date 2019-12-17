@@ -23,5 +23,6 @@ urlpatterns = [
     path("customers/", include("customer.urls")),
     path("barbers/", include("barber.urls")),
     path("accounts/", include("account.urls")),
-    path(r'logout/', logout_view, name='logout')
+    path(r'logout/', logout_view, name='logout'),
+    path(r'search/', include('haystack.urls')),
 ]

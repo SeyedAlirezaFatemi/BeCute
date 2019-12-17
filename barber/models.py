@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from account.models import CustomUser
 
@@ -25,6 +26,9 @@ class BarberShop(models.Model):
     phone = models.CharField(max_length=20, default="")
 
     # location = spatial_models.PointField()
+
+    def get_absolute_url(self):
+        return reverse('info', kwargs={'barbershop_id': self.name})
 
 
 class BarberService(models.Model):
