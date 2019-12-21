@@ -1,6 +1,5 @@
 import datetime
 
-from django import http
 from django.db.models import F
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -27,9 +26,6 @@ class CreateComment(CreateView):
 
     def get_success_url(self):
         return reverse('info', kwargs={'barbershop_id': self.barbershop_name})
-
-    def form_invalid(self, form):
-        return http.HttpResponse("form is invalid.. this is just an HttpResponse object")
 
     def dispatch(self, request, *args, **kwargs):
         self.barbershop_name = kwargs['barbershop_name']

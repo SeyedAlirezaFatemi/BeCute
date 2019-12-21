@@ -22,7 +22,9 @@
                             {#                            <a href="{{ result.object.get_absolute_url }}">{{ result.object.name }}</a>#}
                         </p>
                     {% empty %}
-                        <p>No results found.</p>
+                        <p>
+                            <span class="badge badge-pill badge-danger">No results found.</span>
+                        </p>
                     {% endfor %}
 
                     {% if page.has_previous or page.has_next %}

@@ -4,6 +4,8 @@ from customer.models import Comment
 
 
 class CommentForm(forms.ModelForm):
+    rate = forms.IntegerField(min_value=1, max_value=5)
+
     class Meta:
         model = Comment
         fields = ['content', 'rate']
@@ -15,13 +17,10 @@ class CommentForm(forms.ModelForm):
 
     def save(self, **kwargs):
         data = self.cleaned_data
-        print(data)
         rate = data.pop("rate")
         content = data.pop("content")
-        print("hiiiiii")
         user = self.request.user
         barbershop = self.barbershop
         comment_created = Comment(rate=rate, customer=user, content=content, barbershop=barbershop)
         comment_created.save()
-        print(comment_created)
         return comment_created
