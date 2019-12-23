@@ -26,7 +26,13 @@ class SignupForm(forms.ModelForm):
             "address",
             "city",
             "foundation_year",
-            "phone"
+            "phone",
+            "about_me",
+            "gender",
+            "age",
+            "residence_city",
+            "phone_customer",
+            "hair_type",
         )
 
     def clean(self):
@@ -46,6 +52,14 @@ class SignupForm(forms.ModelForm):
         city = data.pop("city")
         foundation_year = data.pop("foundation_year")
         phone = data.pop("phone")
+
+        # about_me = data.pop("about_me")
+        # gender = data.pop("gender")
+        # age = data.pop("age")
+        # res_city = data.pop("residence_city")
+        # hair_type = data.pop("hair_type")
+        # phone_customer = data.pop("phone_customer")
+
         user_created = CustomUser.objects.create_user(data.pop("username"), data.pop("email"), data.pop("password"), **data)
         if data.get("type") == CustomUser.USER_TYPE_BARBER:
             BarberShop.objects.create(barber=user_created, name=shop_name, introduction=introduction, city=city, address=address, foundation_year=foundation_year, phone=phone)

@@ -1,0 +1,38 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Profile{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'base/css/base_profile.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="bc-profile">
+            <img align="left" class="bc-image-lg" src="{% static 'base/img/profile_bg.jpg' %}"
+                 alt="Profile image example"/>
+            <img align="left" class="bc-image-profile" src="{% static 'base/img/default_avatar.png' %}"
+                 alt="Profile image example"/>
+            <div class="bc-profile-text">
+                <h1>{{ customer.first_name }} {{ customer.last_name }}</h1>
+                <p>{{ customer.username }}</p>
+            </div>
+        </div>
+    </div> <!-- /container -->
+    <br>
+    <div class="container">
+        {% block data %}
+            <div class="card" style="width: 54rem;">
+                <div class="card-header">
+                    <h3>Information</h3>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><h4>About: {{ customer.about_me }}</h4></li>
+                    <li class="list-group-item"><h4>Email: {{ customer.email }}</h4></li>
+                    <li class="list-group-item"><h4>Gender: {{ customer.gender }}</h4></li>
+                    <li class="list-group-item"><h4>Age: {{ customer.age }}</h4></li>
+                    <li class="list-group-item"><h4>City of Residence: {{ customer.city }}</h4></li>
+                    <li class="list-group-item"><h4>Phone: {{ customer.phone_customer }}</h4></li>
+                    <li class="list-group-item"><h4>Hair Type: {{ customer.hair_type }}</h4></li>
+                </ul>
+            </div>{% endblock %}
+    </div>
+{% endblock %}

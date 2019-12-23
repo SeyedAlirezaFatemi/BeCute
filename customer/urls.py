@@ -18,4 +18,7 @@ urlpatterns = [
         login_required(views.CreateComment.as_view()),
         name="comment",
     ),
+    path("<str:customer_username>/profile",
+        views.profile,
+         name='info')
 ]

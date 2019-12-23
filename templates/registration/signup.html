@@ -68,6 +68,64 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group hidden" id="about_me_box">
+                        <div class="col-md-10 col-md-offset-1">
+                            <input type="text" id="about_me_id" name="about_me" placeholder="about me" class="form-control">
+                            <div class="text-danger">
+                                {{ form.about_me.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group hidden" id="gender_box">
+                        <div class="col-md-10 col-md-offset-1">
+                            <select id="gender_id" name="gender" class="form-control">
+                                {% for k, v in form.fields.gender.choices %}
+                                    <option value="{{ v }}" {% ifequal forloop.counter 0 %}selected{% endifequal %}>{{ k }}</option>
+                                {%  endfor %}
+                            </select>
+                            <div class="text-danger">
+                                {{ form.gender.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group hidden" id="age_box">
+                        <div class="col-md-10 col-md-offset-1">
+                            <input type="text" id="age_id" name="age" placeholder="age" class="form-control">
+                            <div class="text-danger">
+                                {{ form.age.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group hidden" id="residence_city_box">
+                        <div class="col-md-10 col-md-offset-1">
+                            <input type="text" id="residence_city_id" name="residence_city" placeholder="city of residence" class="form-control">
+                            <div class="text-danger">
+                                {{ form.shop_name.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group hidden" id="hair_type_box">
+                        <div class="col-md-10 col-md-offset-1">
+                            <select id="hair_type_id" name="hair_type" class="form-control">
+                                {% for k, v in form.fields.hair_type.choices %}
+                                    <option value="{{ v }}" {% ifequal forloop.counter 0 %}selected{% endifequal %}>{{ k }}</option>
+                                {%  endfor %}
+                            </select><div class="text-danger">
+                                {{ form.shop_name.errors }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group hidden" id="phone_customer_box">
+                        <div class="col-md-10 col-md-offset-1">
+                            <input type="text" id="phone_customer_id" name="phone_customer" placeholder="phone number" class="form-control">
+                            <div class="text-danger">
+                                {{ form.shop_name.errors }}
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="form-group hidden" id="shop_name_box">
                         <div class="col-md-10 col-md-offset-1">
                             <input type="text" id="id_shop_name" name="shop_name" placeholder="shop name" class="form-control">
@@ -139,6 +197,14 @@
         let address_box = $('#address_box');
         let foundation_year_box = $('#foundation_year_box');
         let phone_box = $('#phone_box');
+
+        let about_me_box = $('#about_me_box');
+        let gender_box = $('#gender_box');
+        let age_box = $('#age_box');
+        let hair_type_box = $('#hair_type_box');
+        let res_city_box = $('#residence_city_box');
+        let phone_customer_box = $('#phone_customer_box');
+
         user_type.on('change', function () {
             if(user_type.val() === 'barber') {
                 shop_name_box.removeClass('hidden');
@@ -147,6 +213,13 @@
                 address_box.removeClass('hidden');
                 foundation_year_box.removeClass('hidden');
                 phone_box.removeClass('hidden');
+
+                about_me_box.addClass('hidden');
+                gender_box.addClass('hidden');
+                age_box.addClass('hidden');
+                hair_type_box.addClass('hidden');
+                res_city_box.addClass('hidden');
+                phone_customer_box.addClass('hidden');
             }
             else {
                 shop_name_box.addClass('hidden');
@@ -155,6 +228,13 @@
                 address_box.addClass('hidden');
                 foundation_year_box.addClass('hidden');
                 phone_box.addClass('hidden');
+
+                about_me_box.removeClass('hidden');
+                gender_box.removeClass('hidden');
+                age_box.removeClass('hidden');
+                hair_type_box.removeClass('hidden');
+                res_city_box.removeClass('hidden');
+                phone_customer_box.removeClass('hidden');
             }
         })
     </script>

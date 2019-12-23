@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.views.generic import TemplateView, CreateView
 
 from BeCute.misc import parse_datetime
+from account.models import CustomUser
 from barber.models import Schedule, BarberShop
 from customer.forms import CommentForm
 from customer.models import Reservation
@@ -114,3 +115,11 @@ class CustomerProfileView(TemplateView):
             previous_reservations=previous_reservations,
         )
         return context
+
+
+def profile(request, customer_username):
+    customer = CustomUser.objects.get(
+        username=customer_username
+    )
+
+    return render(request, 'customer/info.html', {'customer': customer})
