@@ -102,10 +102,10 @@ class CustomerProfileView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(CustomerProfileView, self).get_context_data(**kwargs)
-        # TODO filter by user
-        user_reservations = Reservation.objects.filter()
+        user_reservations = Reservation.objects.filter(customer=self.request.user)
         upcoming_reservations = user_reservations.filter(
-            state=Reservation.STATE_RESERVED
+            state=Reservation.STATE_RESERVED,
+            start__gte=datetime.datetime.now()
         ).order_by("start")[:3]
         previous_reservations = user_reservations.filter(
             start__lt=datetime.datetime.now()

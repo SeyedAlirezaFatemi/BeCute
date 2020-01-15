@@ -1,0 +1,85 @@
+{% extends 'base/base_form.html' %}
+{% load static %}
+{% block title %}New Service{% endblock %}
+{% block form %}
+    <div class="col-md-12">
+        <form id="service_form" class="form-horizontal" method="POST" action="{% url 'add_service' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label for="id_service_name">Service Name</label>
+{#                    <input hidden id="id_service_name" name="service_name">#}
+                    <input type='text' id="id_service_name" class="form-control" name="service_name" />
+                    <div class="text-danger">
+                        {{ form.service_name.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label for="id_duration">Duration</label>
+                    <div class="row">
+                        <input hidden id="id_duration" name="duration">
+                        <div class="col-md-5">
+                            <div class='input-group'>
+                                <input type='number' id="id_duration_hour" min="0" max="6" class="form-control" value="0"/>
+                                <span class="input-group-addon">
+                                    <span>hours</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-md-offset-1">
+                            <div class='input-group'>
+                                <input type='number' id="id_duration_minute" min="0" max="59" class="form-control" value="30"/>
+                                <span class="input-group-addon">
+                                    <span>minutes</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-danger">
+                        {{ form.duration.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label for="id_price">Price</label>
+{#                    <input hidden id="id_price" name="price">#}
+                    <input type='number' id="id_price" class="form" name="price"/>
+                    <div class="text-danger">
+                        {{ form.price.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <button id="id_save_button" class="btn btn-primary" type="button" onclick="cleanData()"><span class="glyphicon glyphicon-save"> Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block sidebar_image %}{% static 'base/img/schedule.png' %}{% endblock %}
+{% block javascript %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker1').datetimepicker();
+        });
+        function cleanTwoDigitInteger(number) {
+            return Math.floor(number / 10) + '' + number % 10;
+        }
+        function cleanData() {
+            let price = parseFloat($('#id_price').val());
+            $('#id_price').val(price);
+            let service_name = $('#id_service_name').val();
+            $('#id_service_name').val(service_name);
+
+            let duration = parseInt($('#id_duration_hour').val() * 60) + parseInt($('#id_duration_minute').val());
+            $('#id_duration').val(duration);
+            $('#service_form').submit();
+        }
+    </script>
+{% endblock %}

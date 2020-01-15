@@ -2,7 +2,7 @@
 {% load static %}
 {% block data %}
     <div class="row">
-        <div onclick="(() => {window.location = '{% url 'info' barbershop_id=barber_name %}'})()">
+        <div onclick="(() => {window.location = '{% url 'barber_info' barbershop_id=barber_name %}'})()">
             <button type="button" class="btn btn-primary pull-right">
                 Shop Profile
             </button>
@@ -48,12 +48,15 @@
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <tr>
-                            <th>when</th>
-                            <th>duration</th>
+                            <th>When</th>
+                            <th>Customer</th>
+                            <th>Duration</th>
                         </tr>
                         {% for reservation in upcoming_reservations %}
                             <tr>
                                 <td>{{ reservation.start }}</td>
+                                <td><a href='{% url 'customer_info' reservation.customer %}'
+                                       class="badge badge-primary">{{ reservation.customer }}</a></td>
                                 <td>{{ reservation.duration }}</td>
                             </tr>
                         {% endfor %}
@@ -69,12 +72,15 @@
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <tr>
-                            <th>when</th>
-                            <th>duration</th>
+                            <th>When</th>
+                            <th>Customer</th>
+                            <th>Duration</th>
                         </tr>
                         {% for reservation in previous_reservations %}
                             <tr>
                                 <td>{{ reservation.start }}</td>
+                                <td><a href='{% url 'customer_info' reservation.customer %}'
+                                       class="badge badge-primary">{{ reservation.customer }}</a></td>
                                 <td>{{ reservation.duration }}</td>
                             </tr>
                         {% endfor %}

@@ -8,15 +8,16 @@
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <tr>
-                            <th>when</th>
-                            <th>where</th>
-                            <th>duration</th>
-                            <th>cancel</th>
+                            <th>When</th>
+                            <th>Barbershop</th>
+                            <th>Duration</th>
+                            <th>Cancel</th>
                         </tr>
                         {% for reservation in upcoming_reservations %}
                             <tr>
                                 <td>{{ reservation.start }}</td>
-                                <td>{{ reservation.shop.name }}</td>
+                                <td><a href='{% url 'barber_info' reservation.shop.name %}'  class="badge badge-primary">
+                                    {{ reservation.shop.name }}</a></td>
                                 <td>{{ reservation.duration }}</td>
                                 <td><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove" onclick="(() => {window.location = '{% url 'cancel' reservation.id %}'})()"></span></button></td>
                             </tr>
@@ -36,14 +37,15 @@
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <tr>
-                            <th>when</th>
-                            <th>where</th>
-                            <th>duration</th>
+                            <th>When</th>
+                            <th>Barbershop</th>
+                            <th>Duration</th>
                         </tr>
                         {% for reservation in previous_reservations %}
                             <tr>
                                 <td>{{ reservation.start }}</td>
-                                <td>{{ reservation.shop.name }}</td>
+                                <td><a href='{% url 'barber_info' reservation.shop.name %}' class="badge badge-primary">
+                                    {{ reservation.shop.name }}</a></td>
                                 <td>{{ reservation.duration }}</td>
                             </tr>
                         {% endfor %}

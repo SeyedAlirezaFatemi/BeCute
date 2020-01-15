@@ -1,13 +1,14 @@
 import datetime
 
 from django.db.models import Q, F
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import generic
 
 from BeCute.misc import parse_datetime
-from barber.models import Schedule, BarberShop
+from barber.models import Schedule, BarberShop, Service, BarberService
 from customer.models import Reservation, Comment
+from barber.forms import AddServiceToBarbershop
 
 
 def main(request):
@@ -26,7 +27,8 @@ class BarberProfileView(generic.TemplateView):
 
         shop_reservations = Reservation.objects.filter(shop=shop)
         upcoming_reservations = shop_reservations.filter(
-            state=Reservation.STATE_RESERVED
+            state=Reservation.STATE_RESERVED,
+            start__gte=datetime.datetime.now()
         ).order_by("start")[:5]
         previous_reservations = shop_reservations.filter(
             start__lt=datetime.datetime.now()
@@ -34,7 +36,7 @@ class BarberProfileView(generic.TemplateView):
 
         shop_schedules = Schedule.objects.filter(
             shop=shop,
-            # start__gt=datetime.datetime.now()
+            start__gte=datetime.datetime.now()
         )[:5]
 
         barber_name = BarberShop.objects.get(barber=user).name
@@ -104,3 +106,33 @@ def profile(request, barbershop_id):
     # if user.type == CustomUser.USER_TYPE_CLIENT:
     #     show_comment_form = True
     return render(request, 'barber/info.html', {'barbershop': barbershop, 'shop_comments': comments})
+
+
+def add_service(request):
+    try:
+        shop = BarberShop.objects.get(barber=request.user)
+    except BarberShop.DoesNotExist:
+        return HttpResponse("bad request.")
+    if request.method == "POST":
+        # try:
+        #     float(price)
+        # except:
+        #     return HttpResponse("bad request.")
+        price = request.POST.get("price")
+        service_name = request.POST.get("service_name")
+        try:
+            duration = datetime.timedelta(minutes=int(request.POST.get("duration")))
+        except (TypeError, ValueError):
+            duration = None
+        barber_services = BarberService.objects.filter(
+            Q(shop=shop))
+        for bs in barber_services:
+            if bs.service.name == service_name:
+                return HttpResponse("there is a similar service")
+        print("PRINT", request.POST, service_name, price, duration)
+        Service.objects.create(name=service_name, price=float(price), duration=duration)
+
+        return redirect("barber-profile")
+
+    else:
+        return render(request, "barber/new_service.html")

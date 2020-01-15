@@ -20,5 +20,5 @@ urlpatterns = [
     ),
     path("<str:customer_username>/profile",
         views.profile,
-         name='info')
+         name='customer_info')
 ]

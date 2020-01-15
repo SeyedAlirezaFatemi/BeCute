@@ -41,7 +41,15 @@ class SignupForm(forms.ModelForm):
             self.cleaned_data.get("shop_name"),
         )
         if user_type == CustomUser.USER_TYPE_BARBER and not shop_name:
-            self.add_error("shop_name", "This field is required.")
+            self.add_error("shop_name", "Shop's name is required.")
+        phone_customer, phone = (self.cleaned_data.get("phone_customer"),
+                                 self.cleaned_data.get("phone"))
+        if user_type == CustomUser.USER_TYPE_CLIENT:
+            if not str(phone_customer).isdecimal():
+                self.add_error("phone_customer", "Enter a correct phone number")
+        elif user_type == CustomUser.USER_TYPE_BARBER:
+            if not str(phone).isdecimal():
+                self.add_error("phone", "Enter a correct phone number")
         return self.cleaned_data
 
     def save(self, commit=True):

@@ -18,5 +18,6 @@ urlpatterns = [
     ),
     path('<str:barbershop_id>/profile',
          views.profile,
-         name='info'),
+         name='barber_info'),
+    path('add_service/', login_required(views.add_service), name='add_service'),
 ]

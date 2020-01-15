@@ -23,7 +23,7 @@ def get_login_redirect_url(user):
     if user.type == CustomUser.USER_TYPE_BARBER:
         return reverse_lazy("barber-profile")
     elif user.type == CustomUser.USER_TYPE_CLIENT:
-        return reverse_lazy("reserve")
+        return reverse_lazy("customer-profile")
     return reverse_lazy("profile")
 
 
