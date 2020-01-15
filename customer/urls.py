@@ -20,5 +20,6 @@ urlpatterns = [
     ),
     path("<str:customer_username>/profile",
         views.profile,
-         name='customer_info')
+         name='customer_info'),
+    path("ajax/load-services/", views.load_services, name="ajax_load_services")
 ]

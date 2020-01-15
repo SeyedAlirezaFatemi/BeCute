@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from django.views import generic
 
 from BeCute.misc import parse_datetime
+from account.models import CustomUser
 from barber.models import Schedule, BarberShop, Service, BarberService
 from customer.models import Reservation, Comment
 from barber.forms import AddServiceToBarbershop
@@ -101,11 +102,12 @@ def profile(request, barbershop_id):
     )
 
     comments = Comment.objects.filter(barbershop=barbershop)
-    # user = request.user
-    # show_comment_form = False
-    # if user.type == CustomUser.USER_TYPE_CLIENT:
-    #     show_comment_form = True
-    return render(request, 'barber/info.html', {'barbershop': barbershop, 'shop_comments': comments})
+    user = request.user
+    show_comment_form = False
+    if user.type == CustomUser.USER_TYPE_CLIENT:
+        show_comment_form = True
+    services = barbershop.service.all()
+    return render(request, 'barber/info.html', {'barbershop': barbershop, 'shop_comments': comments, 'add_comment': show_comment_form, 'services': services})
 
 
 def add_service(request):

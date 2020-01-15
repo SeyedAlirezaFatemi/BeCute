@@ -11,6 +11,12 @@ class SignupForm(forms.ModelForm):
     city = forms.CharField(max_length=100, required=False)
     foundation_year = forms.CharField(required=False)
     phone = forms.CharField(max_length=20, required=False)
+    about_me = forms.CharField(max_length=200, required=False)
+    # gender = forms.ChoiceField(required=False)
+    age = forms.IntegerField(required=False)
+    residence_city = forms.CharField(required=False)
+    phone_customer = forms.IntegerField(required=False)
+    # hair_type = forms.ChoiceField(required=False)
 
     class Meta:
         model = CustomUser
@@ -61,12 +67,14 @@ class SignupForm(forms.ModelForm):
         foundation_year = data.pop("foundation_year")
         phone = data.pop("phone")
 
-        # about_me = data.pop("about_me")
-        # gender = data.pop("gender")
-        # age = data.pop("age")
-        # res_city = data.pop("residence_city")
-        # hair_type = data.pop("hair_type")
-        # phone_customer = data.pop("phone_customer")
+        if shop_name:
+            about_me = data.pop("about_me")
+            gender = data.pop("gender")
+            age = data.pop("age")
+            res_city = data.pop("residence_city")
+            hair_type = data.pop("hair_type")
+            phone_customer = data.pop("phone_customer")
+            print(data)
 
         user_created = CustomUser.objects.create_user(data.pop("username"), data.pop("email"), data.pop("password"), **data)
         if data.get("type") == CustomUser.USER_TYPE_BARBER:

@@ -20,6 +20,7 @@
     <br>
     <div class="container">
         {% block data %}
+            <div class="col-md-9 pull-left"
             <div class="card" style="width: 54rem;">
                 <div class="card-header">
                     <h3>Information</h3>
@@ -31,7 +32,34 @@
                     <li class="list-group-item"><h4>Address: {{ barbershop.address }}</h4></li>
                     <li class="list-group-item"><h4>Phone: {{ barbershop.phone }}</h4></li>
                 </ul>
-            </div>{% endblock %}
+            </div>
+            </div>
+        {% endblock %}
+{#    </div>#}
+{#    <div class="container">#}
+            <div class="col-md-6 pull-right">
+            <h3>Services</h3>
+            {% if services %}
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Service Name</th>
+                            <th>Duration</th>
+                            <th>Price</th>
+                        </tr>
+                        {% for service in services %}
+                            <tr>
+                                <td>{{ service.name }}</td>
+                                <td>{{ service.duration }}</td>
+                                <td>{{ service.price }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-info">No services introduced yet.</div>
+            {% endif %}
+    </div>
     </div>
     <div class="container">
         <div class="card" style="width: 54rem;">
@@ -101,11 +129,13 @@
             {% else %}
                 <div class="text-info">No comments yet.</div>
             {% endif %}
-            <div onclick="(() => {window.location = '{% url 'comment' barbershop_name=barbershop.name %}'})()">
-                <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span>
-                    new comment
-                </button>
-            </div>
+            {% if add_comment %}
+                <div onclick="(() => {window.location = '{% url 'comment' barbershop_name=barbershop.name %}'})()">
+                    <button type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span>
+                        new comment
+                    </button>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

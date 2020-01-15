@@ -75,7 +75,8 @@
                         <div class="col-md-10 col-md-offset-1">
                             <select id="gender_id" name="gender" class="form-control">
                                 {% for k, v in form.fields.gender.choices %}
-                                    <option value="{{ v }}" {% ifequal forloop.counter 0 %}selected{% endifequal %}>{{ k }}</option>
+                                    {{ forloop.counter }}
+                                    <option selected value="{{ v }}">{{ k }}</option>
                                 {%  endfor %}
                             </select>
                         </div>
@@ -94,7 +95,7 @@
                         <div class="col-md-10 col-md-offset-1">
                             <select id="hair_type_id" name="hair_type" class="form-control">
                                 {% for k, v in form.fields.hair_type.choices %}
-                                    <option value="{{ v }}" {% ifequal forloop.counter 0 %}selected{% endifequal %}>{{ k }}</option>
+                                    <option selected value="{{ v }}">{{ k }}</option>
                                 {%  endfor %}
                             </select>
                         </div>

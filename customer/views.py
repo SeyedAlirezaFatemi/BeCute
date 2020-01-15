@@ -123,3 +123,11 @@ def profile(request, customer_username):
     )
 
     return render(request, 'customer/info.html', {'customer': customer})
+
+
+def load_services(request):
+    shop_id = request.GET.get('shop_id')
+    barbershop = BarberShop.objects.filter(id=shop_id)
+    barbershop = list(set(barbershop))[0]
+    services = barbershop.service.all()
+    return render(request, 'customer/services_dropdown.html', {'services': services})
