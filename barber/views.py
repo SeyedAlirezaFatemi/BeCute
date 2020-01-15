@@ -114,11 +114,11 @@ def add_service(request):
     except BarberShop.DoesNotExist:
         return HttpResponse("bad request.")
     if request.method == "POST":
-        # try:
-        #     float(price)
-        # except:
-        #     return HttpResponse("bad request.")
         price = request.POST.get("price")
+        try:
+            float(price)
+        except:
+            return HttpResponse("bad request.")
         service_name = request.POST.get("service_name")
         try:
             duration = datetime.timedelta(minutes=int(request.POST.get("duration")))
@@ -126,12 +126,12 @@ def add_service(request):
             duration = None
         barber_services = BarberService.objects.filter(
             Q(shop=shop))
+        print(barber_services)
         for bs in barber_services:
             if bs.service.name == service_name:
                 return HttpResponse("there is a similar service")
-        print("PRINT", request.POST, service_name, price, duration)
-        Service.objects.create(name=service_name, price=float(price), duration=duration)
-
+        service = Service.objects.create(name=service_name, price=float(price), duration=duration)
+        BarberService.objects.create(shop=shop, service=service)
         return redirect("barber-profile")
 
     else:

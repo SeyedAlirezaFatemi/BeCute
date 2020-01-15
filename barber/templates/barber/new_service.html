@@ -8,7 +8,6 @@
             <div class="form-group">
                 <div class="col-md-10">
                     <label for="id_service_name">Service Name</label>
-{#                    <input hidden id="id_service_name" name="service_name">#}
                     <input type='text' id="id_service_name" class="form-control" name="service_name" />
                     <div class="text-danger">
                         {{ form.service_name.errors }}
@@ -42,11 +41,11 @@
                     </div>
                 </div>
             </div>
+
             <div class="form-group">
                 <div class="col-md-10">
                     <label for="id_price">Price</label>
-{#                    <input hidden id="id_price" name="price">#}
-                    <input type='number' id="id_price" class="form" name="price"/>
+                    <input type='text' id="id_price" class="form-control" name="price"/>
                     <div class="text-danger">
                         {{ form.price.errors }}
                     </div>
@@ -72,11 +71,6 @@
             return Math.floor(number / 10) + '' + number % 10;
         }
         function cleanData() {
-            let price = parseFloat($('#id_price').val());
-            $('#id_price').val(price);
-            let service_name = $('#id_service_name').val();
-            $('#id_service_name').val(service_name);
-
             let duration = parseInt($('#id_duration_hour').val() * 60) + parseInt($('#id_duration_minute').val());
             $('#id_duration').val(duration);
             $('#service_form').submit();
