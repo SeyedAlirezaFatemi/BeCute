@@ -19,5 +19,6 @@ urlpatterns = [
     path('<str:barbershop_id>/profile',
          views.profile,
          name='barber_info'),
-    path('add_service/', login_required(views.add_service), name='add_service'),
+    path('add-service/', login_required(views.add_service), name='add_service'),
+    path('edit-serivce/', login_required(views.edit_service), name='edit_service'),
 ]

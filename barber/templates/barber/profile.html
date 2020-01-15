@@ -7,6 +7,19 @@
                 Shop Profile
             </button>
         </div>
+
+        <div onclick="(() => {window.location = '{% url 'add_service' %}'})()">
+            <button type="button" class="btn btn-primary pull-right">
+                Add New Service
+            </button>
+        </div>
+
+        <div onclick="(() => {window.location = '{% url 'edit_service' %}'})()">
+            <button type="button" class="btn btn-primary pull-right">
+                Edit a Service
+            </button>
+        </div>
+
         <div class="col-md-6">
             <h3>Schedules</h3>
             {% if previous_reservations or True %}

@@ -17,10 +17,9 @@
             </div>
         </div>
     </div> <!-- /container -->
-    <br>
     <div class="container">
         {% block data %}
-            <div class="col-md-9 pull-left">
+            <div class="col-md-5 pull-left">
             <div class="card" style="width: 54rem;">
                 <div class="card-header">
                     <h3>Information</h3>
@@ -34,9 +33,7 @@
                 </ul>
             </div>
             </div>
-        {% endblock %}
-{#    </div>#}
-{#    <div class="container">#}
+
             <div class="col-md-6 pull-right">
             <h3>Services</h3>
             {% if services %}
@@ -59,7 +56,8 @@
             {% else %}
                 <div class="text-info">No services introduced yet.</div>
             {% endif %}
-    </div>
+            </div>
+        {% endblock %}
     </div>
     <div class="container">
         <div class="card" style="width: 54rem;">

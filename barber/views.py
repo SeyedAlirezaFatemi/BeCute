@@ -138,3 +138,39 @@ def add_service(request):
 
     else:
         return render(request, "barber/new_service.html")
+
+
+def edit_service(request):
+    try:
+        shop = BarberShop.objects.get(barber=request.user)
+        services = shop.service.all()
+    except BarberShop.DoesNotExist:
+        return HttpResponse("bad request.")
+    if request.method == "POST":
+        price = request.POST.get("price")
+        try:
+            float(price)
+        except:
+            return HttpResponse("bad request.")
+        service_name = request.POST.get("service_name")
+        service_new_name = request.POST.get("service_new_name")
+        try:
+            duration = datetime.timedelta(minutes=int(request.POST.get("duration")))
+        except (TypeError, ValueError):
+            duration = None
+        barber_services = BarberService.objects.filter(
+            Q(shop=shop))
+        service = None
+        for bs in barber_services:
+            if bs.service.name == service_name:
+                service = bs.service
+        if service is None:
+            return HttpResponse('No service with that name')
+        service.name = service_new_name
+        service.duration = duration
+        service.price = price
+        service.save()
+        return redirect("barber-profile")
+
+    else:
+        return render(request, "barber/edit_service.html", {'services': services})
