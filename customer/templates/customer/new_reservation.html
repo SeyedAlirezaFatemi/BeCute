@@ -9,8 +9,9 @@
                 <div class="col-md-10">
                     <label for="id_shop_id">Shop</label>
                     <select id="id_shop_id" name="shop_id" class="form-control">
+                        <option value="" selected> </option>
                         {% for shop_id, shop_name in shops %}
-                            <option {% if not forloop.counter %}selected{% endif %} value="{{ shop_id }}">{{ shop_name }}</option>
+                            <option value="{{ shop_id }}">{{ shop_name }}</option>
                         {% endfor %}
                     </select>
                     <div class="text-danger">
@@ -33,33 +34,33 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-10">
-                    <label for="id_duration">duration</label>
-                    <div class="row">
-                        <input hidden id="id_duration" name="duration">
-                        <div class="col-md-5">
-                            <div class='input-group'>
-                                <input type='number' id="id_duration_hour" min="0" max="6" class="form-control" value="0"/>
-                                <span class="input-group-addon">
-                                    <span>hours</span>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-5 col-md-offset-1">
-                            <div class='input-group'>
-                                <input type='number' id="id_duration_minute" min="0" max="59" class="form-control" value="30"/>
-                                <span class="input-group-addon">
-                                    <span>minutes</span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-danger">
-                        {{ form.duration.errors }}
-                    </div>
-                </div>
-            </div>
+{#            <div class="form-group">#}
+{#                <div class="col-md-10">#}
+{#                    <label for="id_duration">duration</label>#}
+{#                    <div class="row">#}
+{#                        <input hidden id="id_duration" name="duration">#}
+{#                        <div class="col-md-5">#}
+{#                            <div class='input-group'>#}
+{#                                <input type='number' id="id_duration_hour" min="0" max="6" class="form-control" value="0"/>#}
+{#                                <span class="input-group-addon">#}
+{#                                    <span>hours</span>#}
+{#                                </span>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="col-md-5 col-md-offset-1">#}
+{#                            <div class='input-group'>#}
+{#                                <input type='number' id="id_duration_minute" min="0" max="59" class="form-control" value="30"/>#}
+{#                                <span class="input-group-addon">#}
+{#                                    <span>minutes</span>#}
+{#                                </span>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="text-danger">#}
+{#                        {{ form.duration.errors }}#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
             <div class="form-group">
                 <div class="col-md-10">
                     <label for="id_service_id">Service</label>
@@ -95,9 +96,9 @@
             let start = $('#id_start_dp').val();
             start = new Date(start);
             start = `${start.getFullYear()}-${cleanTwoDigitInteger(start.getMonth())}-${cleanTwoDigitInteger(start.getDate())}T${cleanTwoDigitInteger(start.getHours())}:${cleanTwoDigitInteger(start.getMinutes())}:${cleanTwoDigitInteger(start.getSeconds())}`;
-            let duration = parseInt($('#id_duration_hour').val() * 60) + parseInt($('#id_duration_minute').val());
+            {#let duration = parseInt($('#id_duration_hour').val() * 60) + parseInt($('#id_duration_minute').val());#}
             $('#id_start').val(start);
-            $('#id_duration').val(duration);
+            {#$('#id_duration').val(duration);#}
             $('#schedule_form').submit();
         }
         $('#id_shop_id').change(function () {

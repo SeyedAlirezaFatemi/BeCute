@@ -28,7 +28,7 @@ class BarberShop(models.Model):
     # location = spatial_models.PointField()
 
     def get_absolute_url(self):
-        return reverse('info', kwargs={'barbershop_id': self.name})
+        return reverse('barber_info', kwargs={'barbershop_id': self.name})
 
 
 class BarberService(models.Model):

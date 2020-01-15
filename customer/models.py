@@ -1,7 +1,7 @@
 from django.db import models
 
 from account.models import CustomUser
-from barber.models import BarberShop
+from barber.models import BarberShop, Service
 
 
 class Reservation(models.Model):
@@ -18,6 +18,7 @@ class Reservation(models.Model):
     customer = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1234567)
     start = models.DateTimeField()
     duration = models.DurationField()
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, default='')
     state = models.CharField(max_length=1, choices=STATES)
 
 

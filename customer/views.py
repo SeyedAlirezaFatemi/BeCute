@@ -8,7 +8,7 @@ from django.views.generic import TemplateView, CreateView
 
 from BeCute.misc import parse_datetime
 from account.models import CustomUser
-from barber.models import Schedule, BarberShop
+from barber.models import Schedule, BarberShop, Service
 from customer.forms import CommentForm
 from customer.models import Reservation
 
@@ -44,12 +44,14 @@ def reserve(request):
         start = parse_datetime(request.POST.get("start", ""))
         try:
             shop = BarberShop.objects.get(id=int(request.POST.get("shop_id")))
-            duration = datetime.timedelta(minutes=int(request.POST.get("duration")))
+            service_name = str(request.POST.get("id_service"))
+            service = shop.service.get(id=service_name)
+            duration = service.duration
         except (TypeError, ValueError, BarberShop.DoesNotExist):
             shop = None
             duration = None
         if not (start and duration and shop):
-            return HttpResponse("bad request")
+            return HttpResponse("bad request NONE")
 
         if (
             Reservation.objects.filter(
@@ -67,6 +69,7 @@ def reserve(request):
             duration=duration,
             start=start,
             state=Reservation.STATE_RESERVED,
+            service=service
         )
 
         return redirect("/customers/profile")
