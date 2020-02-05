@@ -88,42 +88,45 @@
 
                     <div class="form-group">
                         <div class="wrap-input100">
-                            <input type="text" id="id_first_name" name="first_name" placeholder="first name"
+                            <input type="text" id="id_first_name" name="first_name" placeholder="First Name"
                                    class="input100">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
-							<i class="fa fa-envelope" aria-hidden="true"></i>
+							<i class="fa fa-user-secret" aria-hidden="true"></i>
                             </span>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="wrap-input100">
-                            <input type="text" id="id_last_name" name="last_name" placeholder="last name"
+                            <input type="text" id="id_last_name" name="last_name" placeholder="Last Name"
                                    class="input100">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
-							<i class="fa fa-user" aria-hidden="true"></i>
+							<i class="fa fa-user-secret" aria-hidden="true"></i>
 						</span>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="wrap-input100">
+                            <label>
+                                Client or Barber
+                            </label>
                             <select id="id_type" name="type" class="input100">
-                                <span class="focus-input100"></span>
-                                <span class="symbol-input100">
-							<i class="fa fa-user" aria-hidden="true"></i>
-						</span>
                                 {% for k, v in form.fields.type.choices %}
                                     <option value="{{ v }}"
                                             {% ifequal forloop.counter 0 %}selected{% endifequal %}>{{ k }}</option>
                                 {% endfor %}
                             </select>
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-genderless" aria-hidden="true"></i>
+						</span>
                         </div>
                     </div>
 
                     <div class="form-group hidden" id="about_me_box">
                         <div class="wrap-input100">
-                            <input type="text" id="about_me_id" name="about_me" placeholder="about me"
+                            <input type="text" id="about_me_id" name="about_me" placeholder="About Me"
                                    class="input100">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
@@ -133,58 +136,65 @@
                     </div>
                     <div class="form-group hidden" id="gender_box">
                         <div class="wrap-input100">
+                            <label>
+                                Gender
+                            </label>
                             <select id="gender_id" name="gender" class="input100">
-                                <span class="focus-input100"></span>
-                                <span class="symbol-input100">
-							<i class="fa fa-user" aria-hidden="true"></i>
-						</span>
                                 {% for k, v in form.fields.gender.choices %}
                                     {{ forloop.counter }}
                                     <option selected value="{{ v }}">{{ k }}</option>
                                 {% endfor %}
                             </select>
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-genderless" aria-hidden="true"></i>
+						</span>
                         </div>
                     </div>
                     <div class="form-group hidden" id="age_box">
                         <div class="wrap-input100">
-                            <input type="text" id="age_id" name="age" placeholder="age"
+                            <input type="text" id="age_id" name="age" placeholder="Age"
                                    class="input100">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
-							<i class="fa fa-user" aria-hidden="true"></i>
+							<i class="fa fa-pagelines" aria-hidden="true"></i>
 						</span>
                         </div>
                     </div>
                     <div class="form-group hidden" id="residence_city_box">
                         <div class="wrap-input100">
                             <input type="text" id="residence_city_id" name="residence_city"
-                                   placeholder="city of residence" class="input100">
+                                   placeholder="City of Residence" class="input100">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
-							<i class="fa fa-user" aria-hidden="true"></i>
+							<i class="fa fa-location-arrow" aria-hidden="true"></i>
 						</span>
                         </div>
                     </div>
                     <div class="form-group hidden" id="hair_type_box">
                         <div class="wrap-input100">
+                            <label>
+                                Hair Type
+                            </label>
                             <select id="hair_type_id" name="hair_type" class="input100">
-                                <span class="focus-input100"></span>
-                                <span class="symbol-input100">
-							<i class="fa fa-user" aria-hidden="true"></i>
-						</span>
                                 {% for k, v in form.fields.hair_type.choices %}
                                     <option selected value="{{ v }}">{{ k }}</option>
                                 {% endfor %}
                             </select>
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-user-circle" aria-hidden="true"></i>
+						</span>
                         </div>
                     </div>
+
                     <div class="form-group hidden" id="phone_customer_box">
                         <div class="wrap-input100">
                             <input type="text" id="phone_customer_id" name="phone_customer"
-                                   placeholder="phone number" class="input100">
+                                   placeholder="Phone Number" class="input100">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
-							<i class="fa fa-user" aria-hidden="true"></i>
+							<i class="fa fa-phone" aria-hidden="true"></i>
 						</span>
 
                         </div>
@@ -193,11 +203,11 @@
 
                     <div class="form-group hidden" id="shop_name_box">
                         <div class="wrap-input100">
-                            <input type="text" id="id_shop_name" name="shop_name" placeholder="shop name"
+                            <input type="text" id="id_shop_name" name="shop_name" placeholder="Shop Name"
                                    class="input100">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
-							<i class="fa fa-user" aria-hidden="true"></i>
+							<i class="fa fa-user-circle" aria-hidden="true"></i>
 						</span>
                             <div class="text-danger">
                                 {{ form.shop_name.errors }}
@@ -207,10 +217,10 @@
                     <div class="form-group hidden" id="introduction_box">
                         <div class="wrap-input100">
                             <input type="text" id="id_introduction" name="introduction"
-                                   placeholder="introduction" class="input100">
+                                   placeholder="Introduction" class="input100">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
-							<i class="fa fa-user" aria-hidden="true"></i>
+							<i class="fa fa-user-circle" aria-hidden="true"></i>
 						</span>
                             <div class="text-danger">
                                 {{ form.introduction.errors }}
@@ -219,11 +229,11 @@
                     </div>
                     <div class="form-group hidden" id="city_box">
                         <div class="wrap-input100">
-                            <input type="text" id="id_city" name="city" placeholder="city"
+                            <input type="text" id="id_city" name="city" placeholder="City"
                                    class="input100">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
-							<i class="fa fa-user" aria-hidden="true"></i>
+							<i class="fa fa-location-arrow" aria-hidden="true"></i>
 						</span>
                             <div class="text-danger">
                                 {{ form.city.errors }}
@@ -232,11 +242,11 @@
                     </div>
                     <div class="form-group hidden" id="address_box">
                         <div class="wrap-input100">
-                            <input type="text" id="id_address" name="address" placeholder="address"
+                            <input type="text" id="id_address" name="address" placeholder="Address"
                                    class="input100">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
-							<i class="fa fa-user" aria-hidden="true"></i>
+							<i class="fa fa-location-arrow" aria-hidden="true"></i>
 						</span>
                             <div class="text-danger">
                                 {{ form.address.errors }}
@@ -245,11 +255,11 @@
                     </div>
                     <div class="form-group hidden" id="phone_box">
                         <div class="wrap-input100">
-                            <input type="text" id="id_phone_box" name="phone" placeholder="phone"
+                            <input type="text" id="id_phone_box" name="phone" placeholder="Phone"
                                    class="input100">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
-							<i class="fa fa-user" aria-hidden="true"></i>
+							<i class="fa fa-phone" aria-hidden="true"></i>
 						</span>
                             <div class="text-danger">
                                 {{ form.phone.errors }}
@@ -259,10 +269,10 @@
                     <div class="form-group hidden" id="foundation_year_box">
                         <div class="wrap-input100">
                             <input type="text" id="id_foundation_year" name="foundation_year"
-                                   placeholder="foundation year" class="input100">
+                                   placeholder="Foundation Year" class="input100">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
-							<i class="fa fa-user" aria-hidden="true"></i>
+							<i class="fa fa-user-circle" aria-hidden="true"></i>
 						</span>
                             <div class="text-danger">
                                 {{ form.foundation_year.errors }}
