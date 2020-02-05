@@ -1,6 +1,6 @@
 {% extends "base/base.html" %}
 {% block styles %}{% endblock %}
-{% block title %}login{% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block content %}
     {% load static %}
@@ -16,7 +16,8 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-10 col-md-offset-1">
-                            <input type="text" id="id_username" name="username" placeholder="username" class="form-control">
+                            <input type="text" id="id_username" name="username" placeholder="username"
+                                   class="form-control">
                             <div class="text-danger">
                                 {{ form.username.errors }}
                             </div>
@@ -24,7 +25,8 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-10 col-md-offset-1">
-                            <input type="password" id="id_password" name="password" placeholder="password" class="form-control">
+                            <input type="password" id="id_password" name="password" placeholder="password"
+                                   class="form-control">
 
                             <div class="text-danger">
                                 {{ form.password.errors }}
@@ -33,7 +35,8 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-10 col-md-offset-1">
-                            <button id="id_signup_button" class="btn btn-primary center-block btn-block" type="submit">login!
+                            <button id="id_signup_button" class="btn btn-primary center-block btn-block" type="submit">
+                                login!
                             </button>
                         </div>
                     </div>
