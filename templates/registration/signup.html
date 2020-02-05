@@ -4,171 +4,289 @@
 
 {% block content %}
     {% load static %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3 col-xs-12 center-horizontal-vertical">
-                <form id="signup_form" class="signup form-horizontal" method="POST" action="{% url 'signup' %}">
+    <head>
+        <title>Login</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--===============================================================================================-->
+        <link rel="icon" type="image/png" href="{% static "auth/images/icons/favicon.ico" %}"/>
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static "auth/vendor/bootstrap/css/bootstrap.min.css" %}">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css"
+              href="{% static "auth/fonts/font-awesome-4.7.0/css/font-awesome.min.css" %}">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static "auth/vendor/animate/animate.css" %}">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static "auth/vendor/css-hamburgers/hamburgers.min.css" %}">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static "auth/vendor/select2/select2.min.css" %}">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static "auth/css/util.css" %}">
+        <link rel="stylesheet" type="text/css" href="{% static "auth/css/main.css" %}">
+        <!--===============================================================================================-->
+    </head>
+    <body>
+
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <div class="login100-pic js-tilt" data-tilt>
+                    <img src="{% static 'base/img/logo.jpeg' %}" alt="IMG">
+                </div>
+                <form id="signup_form" class="login100-form validate-form" method="POST"
+                      action="{% url 'signup' %}">
                     {% csrf_token %}
-                    <div class="form-group">
-                        <img src="{% static 'base/img/logo.jpeg' %}" class="text-center center-block"
-                             width="100px" height="100px">
-                        <h2 class="text-center logo-text">‌BeCute!</h2>
-                    </div>
+                    <span class="login100-form-title">
+						SignUp
+					</span>
                     <div class="text-danger">
-                                {{ form.username.errors }}
-                                {{ form.password.errors }}
-                                {{ form.email.errors }}
-                                {{ form.first_name.errors }}
-                                {{ form.last_name.errors }}
-                                {{ form.type.errors }}
-                                {{ form.about_me.errors }}
-                                {{ form.gender.errors }}
-                                {{ form.hair_type.errors }}
-                                {{ form.age.errors }}
-                                {{ form.residence_city.errors }}
-                                {{ form.phone_customer.errors }}
+                        {{ form.username.errors }}
+                        {{ form.password.errors }}
+                        {{ form.email.errors }}
+                        {{ form.first_name.errors }}
+                        {{ form.last_name.errors }}
+                        {{ form.type.errors }}
+                        {{ form.about_me.errors }}
+                        {{ form.gender.errors }}
+                        {{ form.hair_type.errors }}
+                        {{ form.age.errors }}
+                        {{ form.residence_city.errors }}
+                        {{ form.phone_customer.errors }}
 
                     </div>
                     <div class="form-group">
-                        <div class="col-md-10 col-md-offset-1">
-                            <input type="text" id="id_username" name="username" placeholder="username" class="form-control">
+                        <div class="wrap-input100">
+                            <input type="text" id="id_username" name="username" placeholder="Username" class="input100">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
+                        </div>
+                    </div>
 
+                    <div class="form-group">
+                        <div class="wrap-input100">
+                            <input type="password" id="id_password" name="password" placeholder="Password"
+                                   class="input100">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+                            </span>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-10 col-md-offset-1">
-                            <input type="password" id="id_password" name="password" placeholder="password" class="form-control">
 
+                    <div class="form-group">
+                        <div class="wrap-input100">
+                            <input type="email" id="id_email" name="email" placeholder="Email" class="input100">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="wrap-input100">
+                            <input type="text" id="id_first_name" name="first_name" placeholder="first name"
+                                   class="input100">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+                            </span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-10 col-md-offset-1">
-                            <input type="email" id="id_email" name="email" placeholder="email" class="form-control">
+                        <div class="wrap-input100">
+                            <input type="text" id="id_last_name" name="last_name" placeholder="last name"
+                                   class="input100">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-10 col-md-offset-1">
-                            <input type="text" id="id_first_name" name="first_name" placeholder="first name" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-10 col-md-offset-1">
-                            <input type="text" id="id_last_name" name="last_name" placeholder="last name" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-10 col-md-offset-1">
-                            <select id="id_type" name="type" class="form-control">
+                        <div class="wrap-input100">
+                            <select id="id_type" name="type" class="input100">
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
                                 {% for k, v in form.fields.type.choices %}
-                                    <option value="{{ v }}" {% ifequal forloop.counter 0 %}selected{% endifequal %}>{{ k }}</option>
-                                {%  endfor %}
+                                    <option value="{{ v }}"
+                                            {% ifequal forloop.counter 0 %}selected{% endifequal %}>{{ k }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group hidden" id="about_me_box">
-                        <div class="col-md-10 col-md-offset-1">
-                            <input type="text" id="about_me_id" name="about_me" placeholder="about me" class="form-control">
+                        <div class="wrap-input100">
+                            <input type="text" id="about_me_id" name="about_me" placeholder="about me"
+                                   class="input100">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
                         </div>
                     </div>
                     <div class="form-group hidden" id="gender_box">
-                        <div class="col-md-10 col-md-offset-1">
-                            <select id="gender_id" name="gender" class="form-control">
+                        <div class="wrap-input100">
+                            <select id="gender_id" name="gender" class="input100">
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
                                 {% for k, v in form.fields.gender.choices %}
                                     {{ forloop.counter }}
                                     <option selected value="{{ v }}">{{ k }}</option>
-                                {%  endfor %}
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
                     <div class="form-group hidden" id="age_box">
-                        <div class="col-md-10 col-md-offset-1">
-                            <input type="text" id="age_id" name="age" placeholder="age" class="form-control">
-                            </div>
+                        <div class="wrap-input100">
+                            <input type="text" id="age_id" name="age" placeholder="age"
+                                   class="input100">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
+                        </div>
                     </div>
                     <div class="form-group hidden" id="residence_city_box">
-                        <div class="col-md-10 col-md-offset-1">
-                            <input type="text" id="residence_city_id" name="residence_city" placeholder="city of residence" class="form-control">
-                            </div>
+                        <div class="wrap-input100">
+                            <input type="text" id="residence_city_id" name="residence_city"
+                                   placeholder="city of residence" class="input100">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
+                        </div>
                     </div>
                     <div class="form-group hidden" id="hair_type_box">
-                        <div class="col-md-10 col-md-offset-1">
-                            <select id="hair_type_id" name="hair_type" class="form-control">
+                        <div class="wrap-input100">
+                            <select id="hair_type_id" name="hair_type" class="input100">
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
                                 {% for k, v in form.fields.hair_type.choices %}
                                     <option selected value="{{ v }}">{{ k }}</option>
-                                {%  endfor %}
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
                     <div class="form-group hidden" id="phone_customer_box">
-                        <div class="col-md-10 col-md-offset-1">
-                            <input type="text" id="phone_customer_id" name="phone_customer" placeholder="phone number" class="form-control">
+                        <div class="wrap-input100">
+                            <input type="text" id="phone_customer_id" name="phone_customer"
+                                   placeholder="phone number" class="input100">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
 
                         </div>
                     </div>
 
 
                     <div class="form-group hidden" id="shop_name_box">
-                        <div class="col-md-10 col-md-offset-1">
-                            <input type="text" id="id_shop_name" name="shop_name" placeholder="shop name" class="form-control">
+                        <div class="wrap-input100">
+                            <input type="text" id="id_shop_name" name="shop_name" placeholder="shop name"
+                                   class="input100">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
                             <div class="text-danger">
                                 {{ form.shop_name.errors }}
                             </div>
                         </div>
                     </div>
                     <div class="form-group hidden" id="introduction_box">
-                        <div class="col-md-10 col-md-offset-1">
-                            <input type="text" id="id_introduction" name="introduction" placeholder="introduction" class="form-control">
+                        <div class="wrap-input100">
+                            <input type="text" id="id_introduction" name="introduction"
+                                   placeholder="introduction" class="input100">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
                             <div class="text-danger">
                                 {{ form.introduction.errors }}
                             </div>
                         </div>
                     </div>
                     <div class="form-group hidden" id="city_box">
-                        <div class="col-md-10 col-md-offset-1">
-                            <input type="text" id="id_city" name="city" placeholder="city" class="form-control">
+                        <div class="wrap-input100">
+                            <input type="text" id="id_city" name="city" placeholder="city"
+                                   class="input100">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
                             <div class="text-danger">
                                 {{ form.city.errors }}
                             </div>
                         </div>
                     </div>
                     <div class="form-group hidden" id="address_box">
-                        <div class="col-md-10 col-md-offset-1">
-                            <input type="text" id="id_address" name="address" placeholder="address" class="form-control">
+                        <div class="wrap-input100">
+                            <input type="text" id="id_address" name="address" placeholder="address"
+                                   class="input100">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
                             <div class="text-danger">
                                 {{ form.address.errors }}
                             </div>
                         </div>
                     </div>
                     <div class="form-group hidden" id="phone_box">
-                        <div class="col-md-10 col-md-offset-1">
-                            <input type="text" id="id_phone_box" name="phone" placeholder="phone" class="form-control">
+                        <div class="wrap-input100">
+                            <input type="text" id="id_phone_box" name="phone" placeholder="phone"
+                                   class="input100">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
                             <div class="text-danger">
                                 {{ form.phone.errors }}
                             </div>
                         </div>
                     </div>
                     <div class="form-group hidden" id="foundation_year_box">
-                        <div class="col-md-10 col-md-offset-1">
-                            <input type="text" id="id_foundation_year" name="foundation_year" placeholder="foundation year" class="form-control">
+                        <div class="wrap-input100">
+                            <input type="text" id="id_foundation_year" name="foundation_year"
+                                   placeholder="foundation year" class="input100">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+							<i class="fa fa-user" aria-hidden="true"></i>
+						</span>
                             <div class="text-danger">
                                 {{ form.foundation_year.errors }}
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-10 col-md-offset-1">
-                            <button id="id_signup_button" class="btn btn-primary center-block btn-block" type="submit">signup!
+                        <div class="container-login100-form-btn">
+                            <button class="login100-form-btn" type="submit" id="id_signup_button">
+                                SignUp
                             </button>
                         </div>
                     </div>
-                    <p class="text-center">
-                        <a href="{% url 'login' %}">Already have an account? Log In</a>
-                    </p>
+                    <div class="text-center ">
+                        <a class="txt2" href="{% url 'login' %}">
+                            Already have an account? Log In
+                            <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                        </a>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
+
 {% endblock %}
 {% block javascript %}
     <script type="text/javascript">
@@ -188,7 +306,7 @@
         let phone_customer_box = $('#phone_customer_box');
 
         user_type.on('change', function () {
-            if(user_type.val() === 'barber') {
+            if (user_type.val() === 'barber') {
                 shop_name_box.removeClass('hidden');
                 introduction_box.removeClass('hidden');
                 city_box.removeClass('hidden');
@@ -202,8 +320,7 @@
                 hair_type_box.addClass('hidden');
                 res_city_box.addClass('hidden');
                 phone_customer_box.addClass('hidden');
-            }
-            else {
+            } else {
                 shop_name_box.addClass('hidden');
                 introduction_box.addClass('hidden');
                 city_box.addClass('hidden');
