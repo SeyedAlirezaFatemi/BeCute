@@ -26,7 +26,7 @@ class CreateComment(CreateView):
     form_class = CommentForm
 
     def get_success_url(self):
-        return reverse('info', kwargs={'barbershop_id': self.barbershop_name})
+        return reverse('barber_info', kwargs={'barbershop_id': self.barbershop_name})
 
     def dispatch(self, request, *args, **kwargs):
         self.barbershop_name = kwargs['barbershop_name']
