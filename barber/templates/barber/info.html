@@ -12,7 +12,7 @@
             <img align="left" class="bc-image-profile" src="{% static 'base/img/default_avatar.png' %}"
                  alt="Profile image example"/>
             <div class="bc-profile-text">
-                <h1>{{ barbershop.name }}</h1>
+                <h1>{{ barbershop.name }} </h1>
                 <p>{{ barbershop.barber.first_name }} {{ barbershop.barber.last_name }}</p>
             </div>
         </div>
@@ -25,6 +25,69 @@
                     <h3>Information</h3>
                 </div>
                 <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><h4 style="display: inline">Rating: </h4>
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                            <style>
+                                .checked {
+                                    color: orange;
+                                }
+                            </style>
+                                {% if rating == 0%}
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                {% elif rating == 1 %}
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                {% elif rating == 2 %}
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                {% elif rating == 3 %}
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                {% elif rating == 4 %}
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                {% elif rating == 5 %}
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                {% endif %} <p style="color: darkorange; display: inline" >{{ rating_exact }}</p>
+{#                    </li>#}
+{#                    <li class="list-group-item">#}
+                        <style>
+                            span.blue {
+                                  background: #5178D0;
+                                  border-radius: 0.8em;
+                                  -moz-border-radius: 0.8em;
+                                  -webkit-border-radius: 0.8em;
+                                  color: #ffffff;
+                                  display: inline-block;
+                                  font-weight: bold;
+                                  line-height: 1.6em;
+                                  margin-right: 15px;
+                                  text-align: center;
+                                  width: 1.6em;
+                                }
+
+                        </style> <h2><span class="blue"> {{ rank }}</span></h2>
+                    </li>
                     <li class="list-group-item"><h4>Introduction: {{ barbershop.introduction }}</h4></li>
                     <li class="list-group-item"><h4>City: {{ barbershop.city }}</h4></li>
                     <li class="list-group-item"><h4>Foundation Year: {{ barbershop.foundation_year }}</h4></li>
@@ -57,9 +120,10 @@
                 <div class="text-info">No services introduced yet.</div>
             {% endif %}
             </div>
-        {% endblock %}
-    </div>
-    <div class="container">
+{#        {% endblock %}#}
+{#    </div>#}
+{#    <div class="container">#}
+      <div class="col-md-6 pull-right">
         <div class="card" style="width: 54rem;">
                 <div class="card-header">
             <h3>Comments</h3>
@@ -136,4 +200,5 @@
             {% endif %}
         </div>
     </div>
+{% endblock %}
 {% endblock %}
