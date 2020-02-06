@@ -80,9 +80,7 @@ def reserve(request):
 
 
 def cancel(request, reserve_id):
-    Reservation.objects.filter(id=reserve_id, customer=request.user).update(
-        state=Reservation.STATE_CANCELED
-    )
+    Reservation.objects.filter(id=reserve_id, customer=request.user).delete()
     return redirect("/customers/profile")
 
 
