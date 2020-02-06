@@ -199,18 +199,27 @@ def add_service(request):
             float(price)
         except:
             return HttpResponse("bad request.")
+
+        try:
+            discounted_price = float(request.POST.get("discounted_price"))
+            print("hellooooooooooooooo", discounted_price)
+        except:
+            discounted_price = 0
+            print("byyyyyyyyyyyy", discounted_price)
+
         service_name = request.POST.get("service_name")
+
         try:
             duration = datetime.timedelta(minutes=int(request.POST.get("duration")))
         except (TypeError, ValueError):
             duration = None
-        barber_services = BarberService.objects.filter(
-            Q(shop=shop))
+
+        barber_services = BarberService.objects.filter(Q(shop=shop))
         print(barber_services)
         for bs in barber_services:
             if bs.service.name == service_name:
                 return HttpResponse("there is a similar service")
-        service = Service.objects.create(name=service_name, price=float(price), duration=duration)
+        service = Service.objects.create(name=service_name, price=float(price), duration=duration, discounted_price=discounted_price)
         BarberService.objects.create(shop=shop, service=service)
         return redirect("barber-profile")
 
@@ -230,6 +239,12 @@ def edit_service(request):
             float(price)
         except:
             return HttpResponse("bad request.")
+
+        try:
+            discounted_price = request.POST.get("discounted_price")
+        except:
+            discounted_price = 0
+
         service_name = request.POST.get("service_name")
         service_new_name = request.POST.get("service_new_name")
         try:
@@ -247,6 +262,7 @@ def edit_service(request):
         service.name = service_new_name
         service.duration = duration
         service.price = price
+        service.discounted_price = discounted_price
         service.save()
         return redirect("barber-profile")
 

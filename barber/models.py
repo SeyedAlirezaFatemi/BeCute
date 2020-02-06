@@ -11,6 +11,7 @@ class Service(models.Model):
     name = models.CharField(max_length=50)
     duration = models.DurationField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
+    discounted_price = models.DecimalField(max_digits=6, decimal_places=2, default=0.0)
 
 
 class BarberShop(models.Model):
