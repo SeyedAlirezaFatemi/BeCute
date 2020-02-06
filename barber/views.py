@@ -183,7 +183,7 @@ def profile(request, barbershop_id):
             rating_barber_shop = 0
         if rating < rating_barber_shop:
             rank += 1
-    total = len(barbershops)+1
+    total = len(barbershops)
 
     return render(request, 'barber/info.html', {'barbershop': barbershop, 'shop_comments': comments, 'add_comment': show_comment_form, 'services': services, "rating": round(rating), "rating_exact": rating, "rank": rank, "total_number_of_barbershops": total})
 

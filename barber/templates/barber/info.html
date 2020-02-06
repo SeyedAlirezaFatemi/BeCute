@@ -14,9 +14,6 @@
             <h2 class="bc-profile-text">
                 <h1>{{ barbershop.name }} </h1>
                 <p>{{ barbershop.barber.first_name }} {{ barbershop.barber.last_name }}</p>
-{#                 <div class="col-md-5 pull-left">#}
-{#            <li class="list-group-item">#}
-{#                <h4 style="display: inline">Rating: </h4>#}
                         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
                             <style>
                                 .checked {
@@ -60,8 +57,6 @@
                                     <span class="fa fa-star checked"></span>
                                     <span class="fa fa-star checked"></span>
                                 {% endif %} <p style="color: darkorange; display: inline" >{{ rating_exact }}</p>
-{#                    </li>#}
-{#                    <li class="list-group-item">#}
                         <style>
                             span.blue {
                                   background: #5178D0;
@@ -77,14 +72,14 @@
                                   width: 1.6em;
                                 }
 
-                        </style> <h2><span class="blue"> {{ rank }}</span><small>out of {{ total_number_of_barbershops }}</small></h2>
+                        </style> <h2><span class="blue"> {{ rank }}</span><small>out of {{ total_number_of_barbershops }}</small> </h2></h2>
 {#                    </li>#}
 {#            </div>#}
             </div>
         </div>
     </div> <!-- /container -->
     <div class="container">
-        {% block data %}
+{#        {% block data %}#}
 
             <div class="col-md-5 pull-left">
             <div class="card" style="width: 54rem;">
@@ -206,7 +201,10 @@
                     </button>
                 </div>
             {% endif %}
+                </div>
         </div>
+      </div>
     </div>
+
 {% endblock %}
-{% endblock %}
+{#{% endblock %}#}
