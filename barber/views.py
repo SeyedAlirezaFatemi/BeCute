@@ -107,7 +107,30 @@ def profile(request, barbershop_id):
     if user.type == CustomUser.USER_TYPE_CLIENT:
         show_comment_form = True
     services = barbershop.service.all()
-    return render(request, 'barber/info.html', {'barbershop': barbershop, 'shop_comments': comments, 'add_comment': show_comment_form, 'services': services})
+    my_comments_list = list(Comment.objects.filter(barbershop=barbershop))
+    rating = 0
+    for comment in my_comments_list:
+        rating += comment.rate
+    if len(my_comments_list) != 0:
+        rating /= len(my_comments_list)
+    else:
+        rating = 0
+    barbershops = list(BarberShop.objects.filter(id=barbershop.id))
+    rank = 1
+    for barber_shop in barbershops:
+        my_comments_list = list(Comment.objects.filter(barbershop=barber_shop))
+        rating_barber_shop = 0
+        for comment in my_comments_list:
+            rating_barber_shop += comment.rate
+        if len(my_comments_list) != 0:
+            rating_barber_shop /= len(my_comments_list)
+        else:
+            rating_barber_shop = 0
+        if rating < rating_barber_shop:
+            rank += 1
+    total = len(barbershops)+1
+
+    return render(request, 'barber/info.html', {'barbershop': barbershop, 'shop_comments': comments, 'add_comment': show_comment_form, 'services': services, "rating": round(rating), "rating_exact": rating, "rank": rank, "total_number_of_barbershops": total})
 
 
 def add_service(request):
