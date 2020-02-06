@@ -11,21 +11,12 @@
                  alt="Profile image example"/>
             <img align="left" class="bc-image-profile" src="{% static 'base/img/default_avatar.png' %}"
                  alt="Profile image example"/>
-            <div class="bc-profile-text">
+            <h2 class="bc-profile-text">
                 <h1>{{ barbershop.name }} </h1>
                 <p>{{ barbershop.barber.first_name }} {{ barbershop.barber.last_name }}</p>
-            </div>
-        </div>
-    </div> <!-- /container -->
-    <div class="container">
-        {% block data %}
-            <div class="col-md-5 pull-left">
-            <div class="card" style="width: 54rem;">
-                <div class="card-header">
-                    <h3>Information</h3>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><h4 style="display: inline">Rating: </h4>
+{#                 <div class="col-md-5 pull-left">#}
+{#            <li class="list-group-item">#}
+{#                <h4 style="display: inline">Rating: </h4>#}
                         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
                             <style>
                                 .checked {
@@ -86,8 +77,21 @@
                                   width: 1.6em;
                                 }
 
-                        </style> <h2><span class="blue"> {{ rank }}</span></h2>
-                    </li>
+                        </style> <h2><span class="blue"> {{ rank }}</span><small>out of {{ total_number_of_barbershops }}</small></h2>
+{#                    </li>#}
+{#            </div>#}
+            </div>
+        </div>
+    </div> <!-- /container -->
+    <div class="container">
+        {% block data %}
+
+            <div class="col-md-5 pull-left">
+            <div class="card" style="width: 54rem;">
+                <div class="card-header">
+                    <h3>Information</h3>
+                </div>
+                <ul class="list-group list-group-flush">
                     <li class="list-group-item"><h4>Introduction: {{ barbershop.introduction }}</h4></li>
                     <li class="list-group-item"><h4>City: {{ barbershop.city }}</h4></li>
                     <li class="list-group-item"><h4>Foundation Year: {{ barbershop.foundation_year }}</h4></li>
