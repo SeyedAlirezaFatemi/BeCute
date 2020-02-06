@@ -48,7 +48,11 @@
                             <tr>
                                 <td>{{ service.name }}</td>
                                 <td>{{ service.duration }}</td>
-                                <td>{{ service.price }}</td>
+                                {% if service.discounted_price > 0.0 %}
+                                    <td><s>{{ service.price }}</s><br><b>{{ service.discounted_price }}</b></td>
+                                {% else %}
+                                    <td>{{ service.price }}</td>
+                                {% endif %}
                             </tr>
                         {% endfor %}
                     </table>
