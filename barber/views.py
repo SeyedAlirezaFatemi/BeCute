@@ -115,9 +115,11 @@ def profile(request, barbershop_id):
         rating /= len(my_comments_list)
     else:
         rating = 0
-    barbershops = list(BarberShop.objects.filter(id=barbershop.id))
+    barbershops = list(BarberShop.objects.all())
     rank = 1
     for barber_shop in barbershops:
+        if barber_shop == barbershop:
+            continue
         my_comments_list = list(Comment.objects.filter(barbershop=barber_shop))
         rating_barber_shop = 0
         for comment in my_comments_list:
