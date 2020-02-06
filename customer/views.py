@@ -134,3 +134,11 @@ def load_services(request):
     barbershop = list(set(barbershop))[0]
     services = barbershop.service.all()
     return render(request, 'customer/services_dropdown.html', {'services': services})
+
+
+def load_services_list(request):
+    shop_id = request.GET.get('shop_id')
+    barbershop = BarberShop.objects.filter(id=shop_id)
+    barbershop = list(set(barbershop))[0]
+    services = barbershop.service.all()
+    return render(request, 'customer/services_table.html', {'services': services})

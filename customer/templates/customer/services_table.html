@@ -1,0 +1,25 @@
+<h3>Services</h3>
+{% if services %}
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <tr>
+                <th>Service Name</th>
+                <th>Duration</th>
+                <th>Price</th>
+            </tr>
+            {% for service in services %}
+                <tr>
+                    <td>{{ service.name }}</td>
+                    <td>{{ service.duration }}</td>
+                    {% if service.discounted_price > 0.0 %}
+                        <td><s>{{ service.price }}</s><br><b>{{ service.discounted_price }}</b></td>
+                    {% else %}
+                        <td>{{ service.price }}</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% else %}
+    <div class="text-info">No services introduced yet.</div>
+{% endif %}
