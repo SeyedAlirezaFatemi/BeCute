@@ -8,7 +8,7 @@
             <div class="form-group">
                 <div class="col-md-10">
                     <label for="id_options_id">Select Explore Option</label>
-                    <select id="id_options_id" name="options_id" class="form-control">
+                    <select id="id_options_id" class="form-control">
                         <option value="" selected> </option>
                         <option value="1">All Barbershops</option>
                         <option value="2">Discounted Barbershops</option>
@@ -89,6 +89,7 @@
             $('#schedule_form').submit();
         }
         $('#id_options_id').change(function () {
+            var choice = document.getElementById("id_options_id").value;
             if ($(this).val() == "1") {
                 var url1 = $('#schedule_form').attr("data-all-url");
 
