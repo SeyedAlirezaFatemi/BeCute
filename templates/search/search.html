@@ -1,6 +1,7 @@
-{% extends 'base/base.html' %}
+{% extends 'base/base_profile.html' %}
 {% load static %}
-{% block content %}
+{% block title %} Search {% endblock %}
+{% block data %}
     {% load static %}
     <div class="container">
         <div class="row">
@@ -12,7 +13,6 @@
                     </div>
                     <input type="submit" class="btn btn-primary" value="Search">
                 </form>
-
                 {% if query %}
                     <h3>Results</h3>
 
@@ -20,7 +20,7 @@
                         <p>
                             <a href="{{ result.object.get_absolute_url }}"
                                class="badge badge-primary">{{ result.object.name }}</a>
-                            {#                            <a href="{{ result.object.get_absolute_url }}">{{ result.object.name }}</a>#}
+                                                        <a href="{{ result.object.get_absolute_url }}">{{ result.object.name }}</a>
                         </p>
                     {% empty %}
                         <p>
