@@ -29,7 +29,7 @@
 <br>
 {#{{ request.session.user_type }}#}
 {#{{ request.session.page }}#}
-{% if user.is_authenticated and request.session.user_type == "customer" and request.session.page != "profile" %}
+{% if user.is_authenticated and request.session.user_type == "customer" and request. %}
     <div class="row">
         <div class="container">
             <div align= "right" >
@@ -40,7 +40,31 @@
         </div>
     </div>
 {% endif %}
-{% if user.is_authenticated and request.session.user_type == "customer" and request.session.page == "profile"%}
+
+
+{% if user.is_authenticated and request.session.user_type == "customer" and request.session.page != "profile"%}
+    <div class="row">
+        <div class="container">
+            <div align= "right" >
+                <a href="{% url "customer-profile" %}"> <button type="button" class="btn btn-danger">Back</button></a>
+                <a href="/search/"> <button type="button" class="btn btn-danger">Search</button></a>
+                <a href="{% url 'logout' %}"> <button type="button" class="btn btn-danger">Logout from {{ user.username }}</button></a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% if user.is_authenticated and request.session.user_type == "customer" and request.session.page == "profile" and request.get_full_path == "/search/"%}
+    <div class="row">
+        <div class="container">
+            <div align= "right" >
+                <a href="{% url "customer-profile" %}"> <button type="button" class="btn btn-danger">Back</button></a>
+                <a href="/search/"> <button type="button" class="btn btn-danger">Search</button></a>
+                <a href="{% url 'logout' %}"> <button type="button" class="btn btn-danger">Logout from {{ user.username }}</button></a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% if user.is_authenticated and request.session.user_type == "customer" and request.session.page == "profile" and request.get_full_path != "/search/"%}
     <div class="row">
         <div class="container">
             <div align= "right" >
@@ -62,7 +86,18 @@
         </div>
     </div>
 {% endif %}
-{% if user.is_authenticated and request.session.user_type == "barber" and request.session.page == "profile"%}
+{% if user.is_authenticated and request.session.user_type == "barber" and request.session.page == "profile" and request.get_full_path == "/search/" %}
+    <div class="row">
+        <div class="container">
+            <div align= "right" >
+                <a href="{% url "barber-profile" %}"> <button type="button" class="btn btn-danger">Back</button></a>
+                <a href="/search/"> <button type="button" class="btn btn-danger">Search</button></a>
+                <a href="{% url 'logout' %}"> <button type="button" class="btn btn-danger">Logout from {{ user.username }}</button></a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% if user.is_authenticated and request.session.user_type == "barber" and request.session.page == "profile" and request.get_full_path != "/search/"%}
     <div class="row">
         <div class="container">
             <div align= "right" >
