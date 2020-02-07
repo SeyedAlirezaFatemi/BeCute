@@ -155,6 +155,10 @@ class RatingAndObjectAndServices():
         self.discounted_services = services
 
 
+def explore(request):
+    return render(request, 'customer/explore.html')
+
+
 def explore_all(request):
     all_barbershops = list(BarberShop.objects.all())
     list_of_barbershops = []
@@ -169,7 +173,7 @@ def explore_all(request):
             rating = 0
         list_of_barbershops.append(RatingAndObject(barbershop, rating))
     list_of_barbershops.sort(key=lambda x: x.rating, reverse=True)
-    return render(request, 'customer/services_dropdown.html', {'list_of_barbershops': list_of_barbershops})
+    return render(request, 'customer/explore_all_table.html', {'list_of_barbershops': list_of_barbershops})
 
 
 def explore_discount_givers(request):
@@ -196,4 +200,4 @@ def explore_discount_givers(request):
                 flag = True
         if flag:
             list_of_discounted_barbershops.append(RatingAndObjectAndServices(barbershop_obj.barbershop, barbershop_obj.rating, services))
-    return render(request, 'customer/services_dropdown.html', {'list_of_discounted_barbershops': list_of_discounted_barbershops})
+    return render(request, 'customer/explore_discount_table.html', {'list_of_discounted_barbershops': list_of_discounted_barbershops})

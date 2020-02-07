@@ -1,9 +1,9 @@
 {% extends 'base/base_form.html' %}
 {% load static %}
-{% block title %}New Reservation{% endblock %}
+{% block title %}Explore{% endblock %}
 {% block form %}
     <div class="col-md-12">
-        <form id="schedule_form" class="form-horizontal" method="POST" action="{% url 'reserve' %}" data-services-url="{% url 'ajax_load_services' %}" data-services-list-url="{% url 'ajax_load_services_list' %}" novalidate>
+        <form id="explore_form" class="form-horizontal" method="POST" action="{% url 'reserve' %}" data-services-url="{% url 'ajax_load_services' %}" data-services-list-url="{% url 'ajax_load_services_list' %}" novalidate>
             {% csrf_token %}
             <div class="form-group">
                 <div class="col-md-10">

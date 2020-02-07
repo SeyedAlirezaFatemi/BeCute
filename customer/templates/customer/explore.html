@@ -1,61 +1,65 @@
 {% extends 'base/base_form.html' %}
 {% load static %}
-{% block title %}New Reservation{% endblock %}
+{% block title %}Explore{% endblock %}
 {% block form %}
     <div class="col-md-12">
-        <form id="schedule_form" class="form-horizontal" method="POST" action="{% url 'reserve' %}" data-services-url="{% url 'ajax_load_services' %}" data-services-list-url="{% url 'ajax_load_services_list' %}" novalidate>
+        <form id="schedule_form" class="form-horizontal" method="POST" action="{% url 'reserve' %}" data-all-url="{% url 'ajax_explore_all' %}" data-discount-givers-url="{% url 'ajax_explore_discount_givers' %}" novalidate>
             {% csrf_token %}
             <div class="form-group">
                 <div class="col-md-10">
-                    <label for="id_shop_id">Shop</label>
-                    <select id="id_shop_id" name="shop_id" class="form-control">
+                    <label for="id_options_id">Select Explore Option</label>
+                    <select id="id_options_id" name="options_id" class="form-control">
                         <option value="" selected> </option>
-                        {% for shop_id, shop_name in shops %}
-                            <option value="{{ shop_id }}">{{ shop_name }}</option>
-                        {% endfor %}
+                        <option value="1">All Barbershops</option>
+                        <option value="2">Discounted Barbershops</option>
                     </select>
-                    <div class="text-danger">
-                        {{ form.shop.errors }}
-                    </div>
+{#                    <div class="text-danger">#}
+{#                        {{ form.shop.errors }}#}
+{#                    </div>#}
                 </div>
             </div>
+
             <div class="form-group">
                 <div class="col-md-10">
-                    <div id="id_service_list" class="table-responsive">
+{#                    <div id="id_shop_list" class="table-responsive">#}
+{##}
+{#                    </div>#}
+                    <label for="id_shop_id">Barbershops</label>
+                    <select id="id_shop_list" name="id_service" class="form-control">
 
-                    </div>
+                    </select>
                     <div class="text-danger">
                         {{ form.service.errors }}
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-10">
-                    <label for="id_service_id">Choose Your Service</label>
-                    <select id="id_service_option" name="id_service" class="form-control">
+{#            <div class="form-group">#}
+{#                <div class="col-md-10">#}
+{#                    <label for="id_service_id">Choose Your Service</label>#}
+{#                    <select id="id_service_option" name="id_service" class="form-control">#}
 {#                        <div id="id_service_option"></div>#}
-                    </select>
-
-                    <div class="text-danger">
-                        {{ form.service.errors }}
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-10">
-                    <label for="id_start">start</label>
-                    <input hidden id="id_start" name="start">
-                    <div class='input-group date' id='datetimepicker1'>
-                        <input type='text' id="id_start_dp" class="form-control" />
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                    </div>
-                    <div class="text-danger">
-                        {{ form.start.errors }}
-                    </div>
-                </div>
-            </div>
+{#                    </select>#}
+{##}
+{#                    <div class="text-danger">#}
+{#                        {{ form.service.errors }}#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="form-group">#}
+{#                <div class="col-md-10">#}
+{#                    <label for="id_start">start</label>#}
+{#                    <input hidden id="id_start" name="start">#}
+{#                    <div class='input-group date' id='datetimepicker1'>#}
+{#                        <input type='text' id="id_start_dp" class="form-control" />#}
+{#                        <span class="input-group-addon">#}
+{#                            <span class="glyphicon glyphicon-calendar"></span>#}
+{#                        </span>#}
+{#                    </div>#}
+{#                    <div class="text-danger">#}
+{#                        {{ form.start.errors }}#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
             <div class="form-group">
                 <div class="col-md-3">
                     <button id="id_reserve_button" class="btn btn-success" type="button" onclick="cleanData()"><span class="glyphicon glyphicon-check"></span> reserve</button>
@@ -64,7 +68,7 @@
         </form>
     </div>
 {% endblock %}
-{% block sidebar_image %}{% static 'base/img/schedule.png' %}{% endblock %}
+{% block sidebar_image %}{% static 'base/img/explore.png' %}{% endblock %}
 {% block javascript %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
@@ -84,31 +88,30 @@
             {#$('#id_duration').val(duration);#}
             $('#schedule_form').submit();
         }
-        $('#id_shop_id').change(function () {
-            var url = $('#schedule_form').attr("data-services-url");
-            var shopID = $(this).val();
+        $('#id_options_id').change(function () {
+            if ($(this).val() == "1") {
+                var url1 = $('#schedule_form').attr("data-all-url");
 
-            $.ajax({
-                url: url,
-                data: {
-                    'shop_id': shopID
-                },
-                success: function(data) {
-                    $('#id_service_option').html(data);
-                }
-            });
+                $.ajax({
+                    url: url1,
+                    data: {
+                    },
+                    success: function(data) {
+                        $('#id_shop_list').html(data);
+                    }
+                });
+            } else {
+                var url2 = $('#schedule_form').attr("data-discount-givers-url");
 
-            var url2 = $('#schedule_form').attr("data-services-list-url");
-
-            $.ajax({
-                url: url2,
-                data: {
-                    'shop_id': shopID
-                },
-                success: function(data) {
-                    $('#id_service_list').html(data);
-                }
-            });
+                $.ajax({
+                    url: url2,
+                    data: {
+                    },
+                    success: function(data) {
+                        $('#id_shop_list').html(data);
+                    }
+                });
+            }
 
         });
     </script>
