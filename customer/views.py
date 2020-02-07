@@ -179,10 +179,14 @@ class RatingAndObjectAndServices():
 
 
 def explore(request):
+    request.session['user_type'] = 'customer'
+    request.session['page'] = 'search'
     return render(request, 'customer/explore.html')
 
 
 def explore_all(request):
+    request.session['user_type'] = 'customer'
+    request.session['page'] = 'search'
     all_barbershops = list(BarberShop.objects.all())
     list_of_barbershops = []
     for barbershop in all_barbershops:
@@ -200,6 +204,8 @@ def explore_all(request):
 
 
 def explore_discount_givers(request):
+    request.session['user_type'] = 'customer'
+    request.session['page'] = 'search'
     all_barbershops = list(BarberShop.objects.all())
     list_of_barbershops = []
     for barbershop in all_barbershops:
