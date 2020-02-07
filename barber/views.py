@@ -231,21 +231,24 @@ def add_service(request):
             if price_float < 0:
                 raise TypeError
         except:
-            return HttpResponse("The price should be valid.")
+            # return HttpResponse("The price should be valid.")
             # return HttpResponse("bad request.")
             request.session['user_type'] = 'barber'
-            request.session['error_message'] = 'Bad Request!'
+            request.session['error_message'] = 'The price should be valid!'
             return redirect("/error/")
 
         try:
             discounted_price = float(request.POST.get("discounted_price"))
-            if discounted_price < 0:
+            if discounted_price < 0 or discounted_price >= price_float:
                 raise TypeError
             # print("hellooooooooooooooo", discounted_price)
         except:
             # discounted_price = 0
             # print("byyyyyyyyyyyy", discounted_price)
-            return HttpResponse("Discounted Price should be valid (zero if no discount)")
+            # return HttpResponse("Discounted Price should be valid (zero if no discount)")
+            request.session['user_type'] = 'barber'
+            request.session['error_message'] = 'Discounted Price should be valid and less than the original (zero if no discount)!'
+            return redirect("/error/")
 
         service_name = request.POST.get("service_name")
 
@@ -288,20 +291,18 @@ def edit_service(request):
             if price_float < 0:
                 raise TypeError
         except:
-            # return HttpResponse("bad request.")
             request.session['user_type'] = 'barber'
-            request.session['error_message'] = 'Bad Request!'
+            request.session['error_message'] = 'The price should be valid!'
             return redirect("/error/")
 
         try:
             discounted_price = float(request.POST.get("discounted_price"))
-            if discounted_price < 0:
+            if discounted_price < 0 or discounted_price >= price_float:
                 raise TypeError
-            # print("hellooooooooooooooo", discounted_price)
         except:
-            # discounted_price = 0
-            # print("byyyyyyyyyyyy", discounted_price)
-            return HttpResponse("Discounted Price should be valid (zero if no discount)")
+            request.session['user_type'] = 'barber'
+            request.session['error_message'] = 'Discounted Price should be valid and less than the original (zero if no discount)!'
+            return redirect("/error/")
 
         service_name = request.POST.get("service_name")
         service_new_name = request.POST.get("service_new_name")

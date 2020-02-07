@@ -8,8 +8,54 @@
             </tr>
             {% for shop in list_of_barbershops %}
                 <tr>
-                    <td>{{ shop.barbershop.name }}</td>
-                    <td>{{ shop.rating }}</td>
+                    <td><a href='{% url 'barber_info' shop.barbershop.name %}'
+                                       class="badge badge-primary">{{ shop.barbershop.name }}</a></td>
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                            <style>
+                                .checked {
+                                    color: orange;
+                                }
+                            </style>
+                    <td>
+                                {% if shop.int_rating == 0%}
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                {% elif shop.int_rating == 1 %}
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                {% elif shop.int_rating == 2 %}
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                {% elif shop.int_rating == 3 %}
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                {% elif shop.int_rating == 4 %}
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                {% elif shop.int_rating == 5 %}
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                {% endif %}
+                        <p style="color: orangered; display: inline" > {{ shop.rating }} </p>
+                            </td>
                 </tr>
             {% endfor %}
         </table>

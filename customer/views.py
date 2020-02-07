@@ -169,12 +169,14 @@ class RatingAndObject():
     def __init__(self, object, rating):
         self.barbershop = object
         self.rating = rating
+        self.int_rating = int(rating)
 
 
 class RatingAndObjectAndServices():
     def __init__(self, object, rating, services):
         self.barbershop = object
         self.rating = rating
+        self.int_rating = int(rating)
         self.discounted_services = services
 
 
