@@ -18,6 +18,8 @@ from customer.models import Reservation, Comment
 
 def main(request):
     print("customer index")
+    request.session['user_type'] = 'customer'
+    request.session['page'] = 'profile'
     return render(request, "customer/index.html", context={})
 
 
@@ -40,6 +42,8 @@ class CreateComment(CreateView):
 
 
 def reserve(request):
+    request.session['user_type'] = 'customer'
+    request.session['page'] = 'reserve'
     if request.method == "POST":
         start = parse_datetime(request.POST.get("start", ""))
         try:
@@ -51,7 +55,10 @@ def reserve(request):
             shop = None
             duration = None
         if not (start and duration and shop):
-            return HttpResponse("bad request NONE")
+            # return HttpResponse("bad request NONE")
+            request.session['user_type'] = 'customer'
+            request.session['error_message'] = 'Bad Request!'
+            return redirect("/error/")
 
         if (
             Reservation.objects.filter(
@@ -61,7 +68,10 @@ def reserve(request):
             shop=shop, start__lte=start, start__gte=start + duration - F("duration")
         ).exists()
         ):
-            return HttpResponse("requested time is not available")
+            # return HttpResponse("requested time is not available")
+            request.session['user_type'] = 'customer'
+            request.session['error_message'] = 'Requested time is not available!'
+            return redirect("/error/")
 
         Reservation.objects.create(
             shop=shop,
@@ -80,6 +90,8 @@ def reserve(request):
 
 
 def cancel(request, reserve_id):
+    request.session['user_type'] = 'customer'
+    request.session['page'] = 'cancel'
     Reservation.objects.filter(id=reserve_id, customer=request.user).delete()
     return redirect("/customers/profile")
 
@@ -94,7 +106,8 @@ def search(request):
     # ).order_by('distance').all()
 
     # return HttpResponse(json.dumps(search_result))
-
+    request.session['user_type'] = 'customer'
+    request.session['page'] = 'search'
     return HttpResponse(" this is search page of costumer")
 
 
@@ -102,6 +115,8 @@ class CustomerProfileView(TemplateView):
     template_name = "customer/profile.html"
 
     def get_context_data(self, **kwargs):
+        self.request.session['user_type'] = 'customer'
+        self.request.session['page'] = 'profile'
         context = super(CustomerProfileView, self).get_context_data(**kwargs)
         user_reservations = Reservation.objects.filter(customer=self.request.user)
         upcoming_reservations = user_reservations.filter(
@@ -119,6 +134,10 @@ class CustomerProfileView(TemplateView):
 
 
 def profile(request, customer_username):
+    # if request.session['user_type'] == 'customer':
+    #     request.session['user_type'] = 'customer'
+    #     request.session['page'] = 'profile'
+    request.session['page'] = 'profile_visit'
     customer = CustomUser.objects.get(
         username=customer_username
     )
@@ -127,6 +146,8 @@ def profile(request, customer_username):
 
 
 def load_services(request):
+    request.session['user_type'] = 'customer'
+    request.session['page'] = 'load_services'
     shop_id = request.GET.get('shop_id')
     barbershop = BarberShop.objects.filter(id=shop_id)
     barbershop = list(set(barbershop))[0]
@@ -135,6 +156,8 @@ def load_services(request):
 
 
 def load_services_list(request):
+    request.session['user_type'] = 'customer'
+    request.session['page'] = 'load_services_list'
     shop_id = request.GET.get('shop_id')
     barbershop = BarberShop.objects.filter(id=shop_id)
     barbershop = list(set(barbershop))[0]
