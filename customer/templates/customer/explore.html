@@ -1,0 +1,115 @@
+{% extends 'base/base_form.html' %}
+{% load static %}
+{% block title %}New Reservation{% endblock %}
+{% block form %}
+    <div class="col-md-12">
+        <form id="schedule_form" class="form-horizontal" method="POST" action="{% url 'reserve' %}" data-services-url="{% url 'ajax_load_services' %}" data-services-list-url="{% url 'ajax_load_services_list' %}" novalidate>
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label for="id_shop_id">Shop</label>
+                    <select id="id_shop_id" name="shop_id" class="form-control">
+                        <option value="" selected> </option>
+                        {% for shop_id, shop_name in shops %}
+                            <option value="{{ shop_id }}">{{ shop_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="text-danger">
+                        {{ form.shop.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <div id="id_service_list" class="table-responsive">
+
+                    </div>
+                    <div class="text-danger">
+                        {{ form.service.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label for="id_service_id">Choose Your Service</label>
+                    <select id="id_service_option" name="id_service" class="form-control">
+{#                        <div id="id_service_option"></div>#}
+                    </select>
+
+                    <div class="text-danger">
+                        {{ form.service.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label for="id_start">start</label>
+                    <input hidden id="id_start" name="start">
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input type='text' id="id_start_dp" class="form-control" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    <div class="text-danger">
+                        {{ form.start.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3">
+                    <button id="id_reserve_button" class="btn btn-success" type="button" onclick="cleanData()"><span class="glyphicon glyphicon-check"></span> reserve</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block sidebar_image %}{% static 'base/img/schedule.png' %}{% endblock %}
+{% block javascript %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker1').datetimepicker();
+        });
+        function cleanTwoDigitInteger(number) {
+            return Math.floor(number / 10) + '' + number % 10;
+        }
+        function cleanData() {
+            let start = $('#id_start_dp').val();
+            start = new Date(start);
+            start = `${start.getFullYear()}-${cleanTwoDigitInteger(start.getMonth()+1)}-${cleanTwoDigitInteger(start.getDate())}T${cleanTwoDigitInteger(start.getHours())}:${cleanTwoDigitInteger(start.getMinutes())}:${cleanTwoDigitInteger(start.getSeconds())}`;
+            {#let duration = parseInt($('#id_duration_hour').val() * 60) + parseInt($('#id_duration_minute').val());#}
+            $('#id_start').val(start);
+            {#$('#id_duration').val(duration);#}
+            $('#schedule_form').submit();
+        }
+        $('#id_shop_id').change(function () {
+            var url = $('#schedule_form').attr("data-services-url");
+            var shopID = $(this).val();
+
+            $.ajax({
+                url: url,
+                data: {
+                    'shop_id': shopID
+                },
+                success: function(data) {
+                    $('#id_service_option').html(data);
+                }
+            });
+
+            var url2 = $('#schedule_form').attr("data-services-list-url");
+
+            $.ajax({
+                url: url2,
+                data: {
+                    'shop_id': shopID
+                },
+                success: function(data) {
+                    $('#id_service_list').html(data);
+                }
+            });
+
+        });
+    </script>
+{% endblock %}
