@@ -1,3 +1,19 @@
-{% for obj in list_of_barbershops %}
-    <option value="{{ obj.pk }}"> {{ obj.rating }} </option>
-{% endfor %}
+<h3>Barbershops</h3>
+{% if list_of_barbershops %}
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <tr>
+                <th>Name</th>
+                <th>Rating</th>
+            </tr>
+            {% for shop in list_of_barbershops %}
+                <tr>
+                    <td>{{ shop.barbershop.name }}</td>
+                    <td>{{ shop.rating }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% else %}
+    <div class="text-info">No barbershop yet.</div>
+{% endif %}

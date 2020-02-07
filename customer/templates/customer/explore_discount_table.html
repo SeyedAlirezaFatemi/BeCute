@@ -1,3 +1,31 @@
-{% for obj in list_of_discounted_barbershops %}
-    <option value="{{ obj.pk }}"> {{ obj.rating }} </option>
-{% endfor %}
+{#{% for obj in list_of_discounted_barbershops %}#}
+{#    <option value="{{ obj.pk }}"> {{ obj.rating }} </option>#}
+{#{% endfor %}#}
+
+<h3>Barbershops</h3>
+{% if list_of_discounted_barbershops %}
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <tr>
+                <th>Name</th>
+                <th>Rating</th>
+                <th>Discounted Services</th>
+            </tr>
+            {% for shop in list_of_discounted_barbershops %}
+                <tr>
+                    <td>{{ shop.barbershop.name }}</td>
+                    <td>{{ shop.rating }}</td>
+                    <td>
+                        <table class="table table-bordered">
+                            {% for service in shop.discounted_services %}
+                                <tr><td>{{ service.name }}</td><td><s>{{ service.price }}</s><br><b>{{ service.discounted_price }}</b></td></tr>
+                            {% endfor %}
+                        </table>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% else %}
+    <div class="text-info">No discounted barbershop yet.</div>
+{% endif %}
