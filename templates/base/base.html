@@ -27,7 +27,9 @@
 {% block javascript %}{% endblock %}
 <br>
 <br>
-{% if user.is_authenticated and "/customers" in request.get_full_path and request.get_full_path != "/customers/profile/"%}
+{#{{ request.session.user_type }}#}
+{#{{ request.session.page }}#}
+{% if user.is_authenticated and request.session.user_type == "customer" and request.session.page != "profile" %}
     <div class="row">
         <div class="container">
             <div align= "right" >
@@ -38,7 +40,7 @@
         </div>
     </div>
 {% endif %}
-{% if user.is_authenticated and "/customers" in request.get_full_path and request.get_full_path == "/customers/profile/"%}
+{% if user.is_authenticated and request.session.user_type == "customer" and request.session.page == "profile"%}
     <div class="row">
         <div class="container">
             <div align= "right" >
@@ -49,7 +51,7 @@
         </div>
     </div>
 {% endif %}
-{% if user.is_authenticated and "/barbers" in request.get_full_path and request.get_full_path != "/barbers/profile/"%}
+{% if user.is_authenticated and request.session.user_type == "barber" and request.session.page != "profile"%}
     <div class="row">
         <div class="container">
             <div align= "right" >
@@ -60,18 +62,7 @@
         </div>
     </div>
 {% endif %}
-{% if user.is_authenticated and "/barbers" in request.get_full_path and request.get_full_path == "/barbers/profile/"%}
-    <div class="row">
-        <div class="container">
-            <div align= "right" >
-                <a href="{% url "login" %}"> <button type="button" class="btn btn-danger">Back</button></a>
-                <a href="/search/"> <button type="button" class="btn btn-danger">Search</button></a>
-                <a href="{% url 'logout' %}"> <button type="button" class="btn btn-danger">Logout from {{ user.username }}</button></a>
-            </div>
-        </div>
-    </div>
-{% endif %}
-{% if user.is_authenticated and request.get_full_path == "/search/" %}
+{% if user.is_authenticated and request.session.user_type == "barber" and request.session.page == "profile"%}
     <div class="row">
         <div class="container">
             <div align= "right" >

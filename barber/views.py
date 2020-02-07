@@ -3,6 +3,7 @@ import datetime
 from django.db.models import Q, F
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views import generic
 
 from BeCute.misc import parse_datetime
@@ -13,6 +14,8 @@ from barber.forms import AddServiceToBarbershop
 
 
 def main(request):
+    request.session['user_type'] = 'barber'
+    request.session['page'] = 'main'
     return render(request, "barber/index.html", context={})
 
 
@@ -28,6 +31,8 @@ class BarberProfileView(generic.TemplateView):
     template_name = "barber/profile.html"
 
     def get_context_data(self, **kwargs):
+        self.request.session['user_type'] = 'barber'
+        self.request.session['page'] = 'profile'
         context = super(BarberProfileView, self).get_context_data(**kwargs)
         user = self.request.user
         shop = BarberShop.objects.get(
@@ -105,10 +110,16 @@ class BarberProfileView(generic.TemplateView):
 
 
 def schedule(request):
+    request.session['user_type'] = 'barber'
+    request.session['page'] = 'schedule'
+
     try:
         shop = BarberShop.objects.get(barber=request.user)
     except BarberShop.DoesNotExist:
-        return HttpResponse("bad request.")
+        # return HttpResponse("bad request.")
+        request.session['user_type'] = 'barber'
+        request.session['error_message'] = 'Bad Request!'
+        return redirect("/error/")
     if request.method == "POST":
         start_dt = parse_datetime(request.POST.get("start", ""))
         try:
@@ -116,14 +127,20 @@ def schedule(request):
         except (TypeError, ValueError):
             duration = None
         if not start_dt and duration:
-            return HttpResponse("bad request")
+            # return HttpResponse("bad request")
+            request.session['user_type'] = 'barber'
+            request.session['error_message'] = 'Bad Request!'
+            return redirect("/error/")
         if Schedule.objects.filter(
             Q(start__lte=start_dt, start__gt=start_dt - F("duration"))
             | Q(start__lt=start_dt + duration, start__gte=start_dt - F("duration"))
             | Q(start__gte=start_dt, start__lte=start_dt + duration - F("duration")),
             shop=shop,
         ).exists():
-            return HttpResponse("there is an overlap with other free times")
+            # return HttpResponse("there is an overlap with other free times")
+            request.session['user_type'] = 'barber'
+            request.session['error_message'] = 'There is an overlap with other free times!'
+            return redirect("/error/")
 
         Schedule.objects.create(shop=shop, start=start_dt, duration=duration)
 
@@ -134,6 +151,8 @@ def schedule(request):
 
 
 def cancel_schedule(request, schedule_id):
+    request.session['user_type'] = 'barber'
+    request.session['page'] = 'cancel_schedule'
     schedule_to_be_deleted = Schedule.objects.filter(
         id=schedule_id, shop__barber=request.user
     ).first()
@@ -144,12 +163,19 @@ def cancel_schedule(request, schedule_id):
             start__lt=schedule_to_be_deleted.start + schedule_to_be_deleted.duration,
             state=Reservation.STATE_RESERVED,
         ).exists():
-            return HttpResponse("There are reservations in this time.")
+            # return HttpResponse("There are reservations in this time.")
+            request.session['user_type'] = 'barber'
+            request.session['error_message'] = "There are reservations in this time."
+            return redirect("/error/")
         schedule_to_be_deleted.delete()
     return redirect("/barbers/profile")
 
 
 def profile(request, barbershop_id):
+    # if not 'user_type' in request.session:
+    # if request.session['user_type'] == 'barber':
+    #     request.session['user_type'] = 'barber'
+    request.session['page'] = 'profile_visit'
     barbershop = BarberShop.objects.get(
         name=barbershop_id
     )
@@ -189,16 +215,24 @@ def profile(request, barbershop_id):
 
 
 def add_service(request):
+    request.session['user_type'] = 'barber'
+    request.session['page'] = 'add_service'
     try:
         shop = BarberShop.objects.get(barber=request.user)
     except BarberShop.DoesNotExist:
-        return HttpResponse("bad request.")
+        # return HttpResponse("bad request.")
+        request.session['user_type'] = 'barber'
+        request.session['error_message'] = 'Bad Request!'
+        return redirect("/error/")
     if request.method == "POST":
         price = request.POST.get("price")
         try:
             float(price)
         except:
-            return HttpResponse("bad request.")
+            # return HttpResponse("bad request.")
+            request.session['user_type'] = 'barber'
+            request.session['error_message'] = 'Bad Request!'
+            return redirect("/error/")
 
         try:
             discounted_price = float(request.POST.get("discounted_price"))
@@ -218,7 +252,10 @@ def add_service(request):
         print(barber_services)
         for bs in barber_services:
             if bs.service.name == service_name:
-                return HttpResponse("there is a similar service")
+                # return HttpResponse("there is a similar service")
+                request.session['user_type'] = 'barber'
+                request.session['error_message'] = 'There is a similar service!'
+                return redirect("/error/")
         service = Service.objects.create(name=service_name, price=float(price), duration=duration, discounted_price=discounted_price)
         BarberService.objects.create(shop=shop, service=service)
         return redirect("barber-profile")
@@ -228,17 +265,25 @@ def add_service(request):
 
 
 def edit_service(request):
+    request.session['user_type'] = 'barber'
+    request.session['page'] = 'edit_service'
     try:
         shop = BarberShop.objects.get(barber=request.user)
         services = shop.service.all()
     except BarberShop.DoesNotExist:
-        return HttpResponse("bad request.")
+        # return HttpResponse("bad request.")
+        request.session['user_type'] = 'barber'
+        request.session['error_message'] = 'Bad Request!'
+        return redirect("/error/")
     if request.method == "POST":
         price = request.POST.get("price")
         try:
             float(price)
         except:
-            return HttpResponse("bad request.")
+            # return HttpResponse("bad request.")
+            request.session['user_type'] = 'barber'
+            request.session['error_message'] = 'Bad Request!'
+            return redirect("/error/")
 
         try:
             discounted_price = request.POST.get("discounted_price")
@@ -258,7 +303,10 @@ def edit_service(request):
             if bs.service.name == service_name:
                 service = bs.service
         if service is None:
-            return HttpResponse('No service with that name')
+            # return HttpResponse('No service with that name')
+            request.session['user_type'] = 'barber'
+            request.session['error_message'] = 'No service with that name!'
+            return redirect("/error/")
         service.name = service_new_name
         service.duration = duration
         service.price = price

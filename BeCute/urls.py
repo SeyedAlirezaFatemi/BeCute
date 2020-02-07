@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from BeCute.views import logout_view, index_view
+from BeCute.views import logout_view, index_view, error_view
 from django.contrib.auth.decorators import login_required
 from haystack.views import basic_search
+from . import views
 
 urlpatterns = [
     path('', index_view, name='index'),
@@ -28,4 +29,5 @@ urlpatterns = [
     path("accounts/", include("account.urls")),
     path(r'logout/', logout_view, name='logout'),
     path(r'search/', login_required(basic_search), name='basic_search'),
+    path("error/", error_view, name="error")
 ]
