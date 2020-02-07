@@ -8,7 +8,7 @@ from django.views.generic import TemplateView, CreateView
 
 from BeCute.misc import parse_datetime
 from account.models import CustomUser
-from barber.models import Schedule, BarberShop, Service
+from barber.models import Schedule, BarberShop, Service, BarberService
 from customer.forms import CommentForm
 from customer.models import Reservation, Comment
 
@@ -194,10 +194,15 @@ def explore_discount_givers(request):
     for barbershop_obj in list_of_barbershops:
         flag = False
         services = []
-        for service in barbershop_obj.barbershop.services:
+        services_barbershop = list(BarberService.objects.filter(shop=barbershop_obj.barbershop))
+        services_barbershop2 = []
+        for s in services_barbershop:
+            services_barbershop2.append(s.service)
+        for service in services_barbershop2:
             if service.discounted_price != 0:
                 services.append(service)
                 flag = True
         if flag:
             list_of_discounted_barbershops.append(RatingAndObjectAndServices(barbershop_obj.barbershop, barbershop_obj.rating, services))
+    # print(list_of_discounted_barbershops[0].rating)
     return render(request, 'customer/explore_discount_table.html', {'list_of_discounted_barbershops': list_of_discounted_barbershops})

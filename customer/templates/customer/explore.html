@@ -20,17 +20,17 @@
             </div>
 
             <div class="form-group">
-                <div class="col-md-10">
-{#                    <div id="id_shop_list" class="table-responsive">#}
-{##}
-{#                    </div>#}
-                    <label for="id_shop_id">Barbershops</label>
-                    <select id="id_shop_list" name="id_service" class="form-control">
 
-                    </select>
-                    <div class="text-danger">
+{#            <div id="id_shop_id" class="col-md-10">#}
+                    {#                    <div id="id_shop_list" class="table-responsive">#}
+                    {##}
+                    {#                    </div>#}
+                <label for="id_shop_list">Barbershops</label>
+                <select id="id_shop_list" name="id_service" class="form-control">
+
+                </select>
+                <div class="text-danger">
                         {{ form.service.errors }}
-                    </div>
                 </div>
             </div>
 {#            <div class="form-group">#}
@@ -80,11 +80,11 @@
             return Math.floor(number / 10) + '' + number % 10;
         }
         function cleanData() {
-            let start = $('#id_start_dp').val();
-            start = new Date(start);
-            start = `${start.getFullYear()}-${cleanTwoDigitInteger(start.getMonth()+1)}-${cleanTwoDigitInteger(start.getDate())}T${cleanTwoDigitInteger(start.getHours())}:${cleanTwoDigitInteger(start.getMinutes())}:${cleanTwoDigitInteger(start.getSeconds())}`;
+            {#let start = $('#id_start_dp').val();#}
+            {#start = new Date(start);#}
+            {#start = `${start.getFullYear()}-${cleanTwoDigitInteger(start.getMonth()+1)}-${cleanTwoDigitInteger(start.getDate())}T${cleanTwoDigitInteger(start.getHours())}:${cleanTwoDigitInteger(start.getMinutes())}:${cleanTwoDigitInteger(start.getSeconds())}`;#}
             {#let duration = parseInt($('#id_duration_hour').val() * 60) + parseInt($('#id_duration_minute').val());#}
-            $('#id_start').val(start);
+            {#$('#id_start').val(start);#}
             {#$('#id_duration').val(duration);#}
             $('#schedule_form').submit();
         }
