@@ -22,5 +22,8 @@ urlpatterns = [
         views.profile,
          name='customer_info'),
     path("ajax/load-services/", views.load_services, name="ajax_load_services"),
-    path("ajax/load-services-list/", views.load_services_list, name="ajax_load_services_list")
+    path("ajax/load-services-list/", views.load_services_list, name="ajax_load_services_list"),
+    path("ajax/explore-all/", views.explore_all, name="ajax_explore_all"),
+    path("ajax/explore-discount-givers/", views.explore_discount_givers, name="ajax_explore_discount_givers"),
+    path("explore/", login_required(views.explore), name="explore")
 ]

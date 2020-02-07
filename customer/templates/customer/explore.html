@@ -1,0 +1,119 @@
+{% extends 'base/base_form.html' %}
+{% load static %}
+{% block title %}Explore{% endblock %}
+{% block form %}
+    <div class="col-md-12">
+        <form id="schedule_form" class="form-horizontal" method="POST" action="{% url 'reserve' %}" data-all-url="{% url 'ajax_explore_all' %}" data-discount-givers-url="{% url 'ajax_explore_discount_givers' %}" novalidate>
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label for="id_options_id">Select Explore Option</label>
+                    <select id="id_options_id" class="form-control">
+                        <option value="" selected> </option>
+                        <option value="1">All Barbershops</option>
+                        <option value="2">Discounted Barbershops</option>
+                    </select>
+{#                    <div class="text-danger">#}
+{#                        {{ form.shop.errors }}#}
+{#                    </div>#}
+                </div>
+            </div>
+
+            <div class="form-group">
+
+{#            <div id="id_shop_id" class="col-md-10">#}
+                    {#                    <div id="id_shop_list" class="table-responsive">#}
+                    {##}
+                    {#                    </div>#}
+                <label for="id_shop_list">Barbershops</label>
+                <select id="id_shop_list" name="id_service" class="form-control">
+
+                </select>
+                <div class="text-danger">
+                        {{ form.service.errors }}
+                </div>
+            </div>
+{#            <div class="form-group">#}
+{#                <div class="col-md-10">#}
+{#                    <label for="id_service_id">Choose Your Service</label>#}
+{#                    <select id="id_service_option" name="id_service" class="form-control">#}
+{#                        <div id="id_service_option"></div>#}
+{#                    </select>#}
+{##}
+{#                    <div class="text-danger">#}
+{#                        {{ form.service.errors }}#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="form-group">#}
+{#                <div class="col-md-10">#}
+{#                    <label for="id_start">start</label>#}
+{#                    <input hidden id="id_start" name="start">#}
+{#                    <div class='input-group date' id='datetimepicker1'>#}
+{#                        <input type='text' id="id_start_dp" class="form-control" />#}
+{#                        <span class="input-group-addon">#}
+{#                            <span class="glyphicon glyphicon-calendar"></span>#}
+{#                        </span>#}
+{#                    </div>#}
+{#                    <div class="text-danger">#}
+{#                        {{ form.start.errors }}#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+            <div class="form-group">
+                <div class="col-md-3">
+                    <button id="id_reserve_button" class="btn btn-success" type="button" onclick="cleanData()"><span class="glyphicon glyphicon-check"></span> reserve</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block sidebar_image %}{% static 'base/img/explore.png' %}{% endblock %}
+{% block javascript %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker1').datetimepicker();
+        });
+        function cleanTwoDigitInteger(number) {
+            return Math.floor(number / 10) + '' + number % 10;
+        }
+        function cleanData() {
+            {#let start = $('#id_start_dp').val();#}
+            {#start = new Date(start);#}
+            {#start = `${start.getFullYear()}-${cleanTwoDigitInteger(start.getMonth()+1)}-${cleanTwoDigitInteger(start.getDate())}T${cleanTwoDigitInteger(start.getHours())}:${cleanTwoDigitInteger(start.getMinutes())}:${cleanTwoDigitInteger(start.getSeconds())}`;#}
+            {#let duration = parseInt($('#id_duration_hour').val() * 60) + parseInt($('#id_duration_minute').val());#}
+            {#$('#id_start').val(start);#}
+            {#$('#id_duration').val(duration);#}
+            $('#schedule_form').submit();
+        }
+        $('#id_options_id').change(function () {
+            var choice = document.getElementById("id_options_id").value;
+            if ($(this).val() == "1") {
+                var url1 = $('#schedule_form').attr("data-all-url");
+
+                $.ajax({
+                    url: url1,
+                    data: {
+                    },
+                    success: function(data) {
+                        $('#id_shop_list').html(data);
+                    }
+                });
+            } else {
+                var url2 = $('#schedule_form').attr("data-discount-givers-url");
+
+                $.ajax({
+                    url: url2,
+                    data: {
+                    },
+                    success: function(data) {
+                        $('#id_shop_list').html(data);
+                    }
+                });
+            }
+
+        });
+    </script>
+{% endblock %}
