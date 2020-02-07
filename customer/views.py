@@ -10,7 +10,7 @@ from BeCute.misc import parse_datetime
 from account.models import CustomUser
 from barber.models import Schedule, BarberShop, Service
 from customer.forms import CommentForm
-from customer.models import Reservation
+from customer.models import Reservation, Comment
 
 
 # from django.views.generic.edit import CreateView
@@ -140,3 +140,60 @@ def load_services_list(request):
     barbershop = list(set(barbershop))[0]
     services = barbershop.service.all()
     return render(request, 'customer/services_table.html', {'services': services})
+
+
+class RatingAndObject():
+    def __init__(self, object, rating):
+        self.barbershop = object
+        self.rating = rating
+
+
+class RatingAndObjectAndServices():
+    def __init__(self, object, rating, services):
+        self.barbershop = object
+        self.rating = rating
+        self.discounted_services = services
+
+
+def explore_all(request):
+    all_barbershops = list(BarberShop.objects.all())
+    list_of_barbershops = []
+    for barbershop in all_barbershops:
+        my_comments_list = list(Comment.objects.filter(barbershop=barbershop))
+        rating = 0
+        for comment in my_comments_list:
+            rating += comment.rate
+        if len(my_comments_list) != 0:
+            rating /= len(my_comments_list)
+        else:
+            rating = 0
+        list_of_barbershops.append(RatingAndObject(barbershop, rating))
+    list_of_barbershops.sort(key=lambda x: x.rating, reverse=True)
+    return render(request, 'customer/services_dropdown.html', {'list_of_barbershops': list_of_barbershops})
+
+
+def explore_discount_givers(request):
+    all_barbershops = list(BarberShop.objects.all())
+    list_of_barbershops = []
+    for barbershop in all_barbershops:
+        my_comments_list = list(Comment.objects.filter(barbershop=barbershop))
+        rating = 0
+        for comment in my_comments_list:
+            rating += comment.rate
+        if len(my_comments_list) != 0:
+            rating /= len(my_comments_list)
+        else:
+            rating = 0
+        list_of_barbershops.append(RatingAndObject(barbershop, rating))
+    list_of_barbershops.sort(key=lambda x: x.rating, reverse=True)
+    list_of_discounted_barbershops = []
+    for barbershop_obj in list_of_barbershops:
+        flag = False
+        services = []
+        for service in barbershop_obj.barbershop.services:
+            if service.discounted_price != 0:
+                services.append(service)
+                flag = True
+        if flag:
+            list_of_discounted_barbershops.append(RatingAndObjectAndServices(barbershop_obj.barbershop, barbershop_obj.rating, services))
+    return render(request, 'customer/services_dropdown.html', {'list_of_discounted_barbershops': list_of_discounted_barbershops})
