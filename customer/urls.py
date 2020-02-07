@@ -5,7 +5,7 @@ from . import views
 
 urlpatterns = [
     path("", views.main),
-    path("search/", login_required(views.search)),
+    # path("search/", login_required(views.search)),
     path(
         "profile/",
         login_required(views.CustomerProfileView.as_view()),

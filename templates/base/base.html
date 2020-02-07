@@ -27,11 +27,59 @@
 {% block javascript %}{% endblock %}
 <br>
 <br>
-{% if user.is_authenticated %}
-    <div class="container">
+{% if user.is_authenticated and "/customers" in request.get_full_path and request.get_full_path != "/customers/profile/"%}
+    <div class="row">
+        <div class="container">
             <div align= "right" >
-                    <a href="{% url 'logout' %}"> <button type="button" class="btn btn-danger">Logout from {{ user.username }}</button></a>
+                <a href="{% url "customer-profile" %}"> <button type="button" class="btn btn-danger">Back</button></a>
+                <a href="/search/"> <button type="button" class="btn btn-danger">Search</button></a>
+                <a href="{% url 'logout' %}"> <button type="button" class="btn btn-danger">Logout from {{ user.username }}</button></a>
             </div>
+        </div>
+    </div>
+{% endif %}
+{% if user.is_authenticated and "/customers" in request.get_full_path and request.get_full_path == "/customers/profile/"%}
+    <div class="row">
+        <div class="container">
+            <div align= "right" >
+                <a href="{% url "login" %}"> <button type="button" class="btn btn-danger">Back</button></a>
+                <a href="/search/"> <button type="button" class="btn btn-danger">Search</button></a>
+                <a href="{% url 'logout' %}"> <button type="button" class="btn btn-danger">Logout from {{ user.username }}</button></a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% if user.is_authenticated and "/barbers" in request.get_full_path and request.get_full_path != "/barbers/profile/"%}
+    <div class="row">
+        <div class="container">
+            <div align= "right" >
+                <a href="{% url "barber-profile" %}"> <button type="button" class="btn btn-danger">Back</button></a>
+                <a href="/search/"> <button type="button" class="btn btn-danger">Search</button></a>
+                <a href="{% url 'logout' %}"> <button type="button" class="btn btn-danger">Logout from {{ user.username }}</button></a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% if user.is_authenticated and "/barbers" in request.get_full_path and request.get_full_path == "/barbers/profile/"%}
+    <div class="row">
+        <div class="container">
+            <div align= "right" >
+                <a href="{% url "login" %}"> <button type="button" class="btn btn-danger">Back</button></a>
+                <a href="/search/"> <button type="button" class="btn btn-danger">Search</button></a>
+                <a href="{% url 'logout' %}"> <button type="button" class="btn btn-danger">Logout from {{ user.username }}</button></a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% if user.is_authenticated and request.get_full_path == "/search/" %}
+    <div class="row">
+        <div class="container">
+            <div align= "right" >
+                <a href="{% url "login" %}"> <button type="button" class="btn btn-danger">Back</button></a>
+                <a href="/search/"> <button type="button" class="btn btn-danger">Search</button></a>
+                <a href="{% url 'logout' %}"> <button type="button" class="btn btn-danger">Logout from {{ user.username }}</button></a>
+            </div>
+        </div>
     </div>
 {% endif %}
 <br>

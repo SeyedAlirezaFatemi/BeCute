@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 from BeCute.views import logout_view, index_view
+from django.contrib.auth.decorators import login_required
+from haystack.views import basic_search
 
 urlpatterns = [
     path('', index_view, name='index'),
@@ -25,5 +27,5 @@ urlpatterns = [
     path("barbers/", include("barber.urls")),
     path("accounts/", include("account.urls")),
     path(r'logout/', logout_view, name='logout'),
-    path(r'search/', include('haystack.urls')),
+    path(r'search/', login_required(basic_search), name='basic_search'),
 ]
