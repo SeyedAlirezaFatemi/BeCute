@@ -196,16 +196,21 @@ def add_service(request):
     if request.method == "POST":
         price = request.POST.get("price")
         try:
-            float(price)
+            price_float = float(price)
+            if price_float < 0:
+                raise TypeError
         except:
-            return HttpResponse("bad request.")
+            return HttpResponse("The price should be valid.")
 
         try:
             discounted_price = float(request.POST.get("discounted_price"))
-            print("hellooooooooooooooo", discounted_price)
+            if discounted_price < 0:
+                raise TypeError
+            # print("hellooooooooooooooo", discounted_price)
         except:
-            discounted_price = 0
-            print("byyyyyyyyyyyy", discounted_price)
+            # discounted_price = 0
+            # print("byyyyyyyyyyyy", discounted_price)
+            return HttpResponse("Discounted Price should be valid (zero if no discount)")
 
         service_name = request.POST.get("service_name")
 
@@ -215,10 +220,10 @@ def add_service(request):
             duration = None
 
         barber_services = BarberService.objects.filter(Q(shop=shop))
-        print(barber_services)
+        # print(barber_services)
         for bs in barber_services:
             if bs.service.name == service_name:
-                return HttpResponse("there is a similar service")
+                return HttpResponse("There is a similar service")
         service = Service.objects.create(name=service_name, price=float(price), duration=duration, discounted_price=discounted_price)
         BarberService.objects.create(shop=shop, service=service)
         return redirect("barber-profile")
@@ -236,14 +241,21 @@ def edit_service(request):
     if request.method == "POST":
         price = request.POST.get("price")
         try:
-            float(price)
+            price_float = float(price)
+            if price_float < 0:
+                raise TypeError
         except:
-            return HttpResponse("bad request.")
+            return HttpResponse("The price should be valid.")
 
         try:
-            discounted_price = request.POST.get("discounted_price")
+            discounted_price = float(request.POST.get("discounted_price"))
+            if discounted_price < 0:
+                raise TypeError
+            # print("hellooooooooooooooo", discounted_price)
         except:
-            discounted_price = 0
+            # discounted_price = 0
+            # print("byyyyyyyyyyyy", discounted_price)
+            return HttpResponse("Discounted Price should be valid (zero if no discount)")
 
         service_name = request.POST.get("service_name")
         service_new_name = request.POST.get("service_new_name")
