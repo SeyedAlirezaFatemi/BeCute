@@ -113,4 +113,30 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-5">
+            <h3>Top Three Customers</h3>
+            {% if top_customer %}
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Who</th>
+                            <th>Number of Past Reservations</th>
+                            <th>Number of Upcoming Reservations</th>
+                        </tr>
+                        {% for customer in top_customer %}
+                            <tr>
+                                <td><a href='{% url 'customer_info' customer.object %}'
+                                       class="badge badge-primary">{{ customer.object }}</a></td>
+                                <td>{{ customer.number }}</td>
+                                <td>{{ customer.number2 }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-info">No customer yet.</div>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

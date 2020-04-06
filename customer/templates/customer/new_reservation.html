@@ -95,7 +95,7 @@
         function cleanData() {
             let start = $('#id_start_dp').val();
             start = new Date(start);
-            start = `${start.getFullYear()}-${cleanTwoDigitInteger(start.getMonth())}-${cleanTwoDigitInteger(start.getDate())}T${cleanTwoDigitInteger(start.getHours())}:${cleanTwoDigitInteger(start.getMinutes())}:${cleanTwoDigitInteger(start.getSeconds())}`;
+            start = `${start.getFullYear()}-${cleanTwoDigitInteger(start.getMonth()+1)}-${cleanTwoDigitInteger(start.getDate())}T${cleanTwoDigitInteger(start.getHours())}:${cleanTwoDigitInteger(start.getMinutes())}:${cleanTwoDigitInteger(start.getSeconds())}`;
             {#let duration = parseInt($('#id_duration_hour').val() * 60) + parseInt($('#id_duration_minute').val());#}
             $('#id_start').val(start);
             {#$('#id_duration').val(duration);#}

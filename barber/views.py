@@ -16,6 +16,14 @@ def main(request):
     return render(request, "barber/index.html", context={})
 
 
+class NameAndNumber():
+    def __init__(self, name, number, number2, object):
+        self.name = name
+        self.number = number
+        self.number2 = number2
+        self.object = object
+
+
 class BarberProfileView(generic.TemplateView):
     template_name = "barber/profile.html"
 
@@ -41,12 +49,57 @@ class BarberProfileView(generic.TemplateView):
         )[:5]
 
         barber_name = BarberShop.objects.get(barber=user).name
+        previous_reservations_list = list(previous_reservations)
+
+        loving_customers = {}
+        customers = {}
+        for reservation in previous_reservations_list:
+            if reservation.customer.username in loving_customers.keys():
+                loving_customers[reservation.customer.username] += 1
+            else:
+                loving_customers[reservation.customer.username] = 1
+                customers[reservation.customer.username] = reservation.customer
+        loving_customers_list_of_values = list(loving_customers.values())
+        loving_customers_list_of_values = sorted(loving_customers_list_of_values, reverse=True)
+
+        upcoming_reservations_list = list(upcoming_reservations)
+        loving_customers_upcoming = {}
+        for reservation in upcoming_reservations_list:
+            if reservation.customer.username in loving_customers_upcoming.keys():
+                loving_customers_upcoming[reservation.customer.username] += 1
+            else:
+                loving_customers_upcoming[reservation.customer.username] = 1
+
+        top_customer = []
+        for key in loving_customers.keys():
+            if len(loving_customers_list_of_values) > 0 and loving_customers[key] == loving_customers_list_of_values[0]:
+                if key in loving_customers_upcoming.keys():
+                    top_customer.append(NameAndNumber(key, loving_customers[key], loving_customers_upcoming[key], customers[key]))
+                else:
+                    top_customer.append(NameAndNumber(key, loving_customers[key], 0, customers[key]))
+
+        for key in loving_customers.keys():
+            if len(loving_customers_list_of_values) > 1 and loving_customers[key] == loving_customers_list_of_values[1]:
+                if key in loving_customers_upcoming.keys():
+                    top_customer.append(
+                        NameAndNumber(key, loving_customers[key], loving_customers_upcoming[key], customers[key]))
+                else:
+                    top_customer.append(NameAndNumber(key, loving_customers[key], 0, customers[key]))
+        for key in loving_customers.keys():
+            if len(loving_customers_list_of_values) > 2 and loving_customers[key] == loving_customers_list_of_values[2]:
+                if key in loving_customers_upcoming.keys():
+                    top_customer.append(NameAndNumber(key, loving_customers[key], loving_customers_upcoming[key], customers[key]))
+                else:
+                    top_customer.append(NameAndNumber(key, loving_customers[key], 0, customers[key]))
+
+        top_customer = top_customer[0: min(3, len(top_customer))]
 
         context.update(
             upcoming_reservations=upcoming_reservations,
             previous_reservations=previous_reservations,
             shop_schedules=shop_schedules,
             barber_name=barber_name,
+            top_customer=top_customer,
         )
         return context
 
